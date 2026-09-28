@@ -1,0 +1,28 @@
+# Dependencies and local environment
+**/node_modules/
+**/.env
+**/.env.*
+!**/.env.example
+
+# Nuxt and generated delivery output
+SITE/.nuxt/
+SITE/.output/
+SITE/_nuxt/
+SITE/index.html
+SITE/_payload.json
+SITE/robots.txt
+SITE/sitemap.xml
+SITE/brand/
+SITE/icons/
+SITE/images/
+SITE/licenses/
+SITE/FLUXO_DE_CLIENTES_MARCA_v1.zip
+SITE/Landing-Page-Fluxo-de-Clientes.zip
+
+# Exported Windows cache artifacts
+SITE/%SystemDrive%/
+
+# Test and coverage output
+SITE/coverage/
+SITE/playwright-report/
+SITE/test-results/

@@ -1,0 +1,40 @@
+{
+  "name": "fluxo-de-clientes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.6.0",
+  "engines": { "node": "^22.19.0 || ^24.11.0 || >=26.0.0" },
+  "scripts": {
+    "dev": "nuxt dev --host 127.0.0.1",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write app shared server tests scripts nuxt.config.ts playwright.config.ts README.md",
+    "test": "playwright test",
+    "test:install": "playwright install chromium",
+    "deliver": "pnpm generate && node scripts/prepare-entry.mjs"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "5.3.0",
+    "@lucide/vue": "1.48.0",
+    "nuxt": "4.5.2",
+    "vue": "3.5.43",
+    "vue-router": "5.3.1"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "1.17.0",
+    "@nuxt/test-utils": "4.3.2",
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "^22.19.0",
+    "eslint": "10.11.0",
+    "prettier": "3.9.9",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vue-tsc": "3.3.11"
+  }
+}
