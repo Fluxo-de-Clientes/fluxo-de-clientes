@@ -16,6 +16,8 @@ description: 'Use when orienting work in this repository, changing project struc
 - `SITE/server/routes/`: robots e sitemap, não uma API comercial.
 - `SITE/tests/e2e/`: Playwright com `@nuxt/test-utils`.
 - `docs/ARQUITETURA.md`: plano futuro para dashboard, Supabase e serviços; não prova que estejam implementados.
+- A arquitetura alvo está registrada em `docs/ARQUITETURA.md`: site e dashboard públicos, hub multi-tenant na KVM4, workers na KVM2 (Redis, n8n e agente runtime), autenticação Supabase, Stripe como confirmação de pagamento e provisionamento do Tenant 1.
+- VPNs, Redis, n8n, agente runtime, chaves, portas e endpoints privados não devem ser colocados no Git nem expostos em `NUXT_PUBLIC_*`/`VITE_*`.
 - `SITE/index.html`, `SITE/_nuxt/`, `SITE/.output/` e cópias de entrega na raiz de `SITE/`: artefatos regeneráveis.
 
 ## Comandos
