@@ -45,7 +45,17 @@ Para um servidor Node/Nitro, use `pnpm build` e `pnpm preview`, ou execute `.out
 ```text
 app/
   assets/css/       # Tokens Tailwind, Barlow local e estilos compartilhados
-  components/      # layout, hero, sections, cards, dashboard, forms e ui
+  components/       # Peças de interface organizadas por camada e domínio
+    layout/         # Header, footer e apresentação da marca
+    hero/           # Abertura da landing
+    sections/       # Seções de conteúdo e composição da página
+    features/       # Demonstrações da plataforma, separadas por domínio
+      dashboard/    # Visão geral e métricas demonstrativas
+      funnel/       # Funil e contatos fictícios
+      ai/           # Sugestões demonstrativas de IA
+    forms/          # Formulário de demonstração
+    ui/             # Primitivos visuais compartilhados
+    cards/          # Cards reutilizados pelas seções
   composables/     # Demonstração e SEO
   data/content.ts  # Navegação, cards, FAQ e dados demonstrativos
   pages/index.vue  # Composição da página
@@ -85,7 +95,11 @@ Sem URL ou endpoint de demonstração, o formulário permite conferir os campos,
 
 ## Netlify
 
-O `netlify.toml` define `pnpm generate`, publicação em `.output/public`, Node e pnpm. Conecte o repositório na Netlify, preencha as variáveis públicas no ambiente de build e publique. Não é necessário banco de dados, função comercial ou serviço de terceiros para exibir o site. A arquitetura mantém compatibilidade com Node/Nitro.
+Importe o repositório [familia-calango-br/fluxo-de-clientes](https://github.com/familia-calango-br/fluxo-de-clientes) e selecione a branch `main`. Configure **Base directory: `SITE`**, **Build command: `pnpm generate`** e **Publish directory: `.output/public`** (relativa à base). A base deve ser `SITE` porque a raiz reúne também um painel independente; apenas selecionar Package directory não muda a pasta de instalação.
+
+O `netlify.toml` desta pasta define build, publicação, Node e pnpm. Cadastre as variáveis públicas da tabela acima nas variáveis de ambiente do Netlify, disponíveis durante o build. Nunca use `NUXT_PUBLIC_*` para chaves privadas. Depois de alterar as variáveis, faça um novo deploy.
+
+A configuração segue a [documentação oficial de monorepositórios do Netlify](https://docs.netlify.com/build/configure-builds/monorepos/). Não é necessário banco de dados, função comercial ou serviço de terceiros para exibir o site. A arquitetura mantém compatibilidade com Node/Nitro.
 
 ## Identidade e acessibilidade
 
