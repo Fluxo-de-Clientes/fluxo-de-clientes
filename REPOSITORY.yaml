@@ -1,5 +1,7 @@
 repository:
   name: fluxo-de-clientes
+  github_full_name: "Fluxo-de-Clientes/fluxo-de-clientes"
+  remote_url: "https://github.com/Fluxo-de-Clientes/fluxo-de-clientes.git"
   product: Fluxo de Clientes
   component: app
   responsibility: "Aplicação web autenticada do produto SaaS"

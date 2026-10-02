@@ -5,6 +5,8 @@ project:
   description: "SaaS para gestão de fluxo de clientes, automação operacional e acompanhamento comercial."
   organization: Fluxo-de-Clientes
   repository_prefix: fluxo-de-clientes
+  github_repository: "Fluxo-de-Clientes/fluxo-de-clientes"
+  github_repository_url: "https://github.com/Fluxo-de-Clientes/fluxo-de-clientes"
   environment: production
   owner: "diretoria@fluxodeclientes.com.br"
   technical_owner: "time-tecnologia@fluxodeclientes.com.br"
