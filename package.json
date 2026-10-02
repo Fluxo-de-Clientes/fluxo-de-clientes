@@ -2,6 +2,9 @@
   "name": "03-fluxo-de-clientes",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": "^22.23.1"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
