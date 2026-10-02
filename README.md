@@ -2,7 +2,15 @@
 
 Protótipo de uma plataforma para organizar marketing, atendimento e dados. A página inicial apresenta um painel demonstrativo, um funil com contatos fictícios e um fluxo visual do contato à oportunidade. Os botões de demonstração abrem uma conversa local na aplicação.
 
-O projeto usa **Nuxt 4, Vue 3, TypeScript, Nuxt UI e GSAP**. As conversas ficam no estado da sessão, sem backend, banco de dados ou persistência.
+O projeto usa **Nuxt 4, Vue 3, TypeScript, Nuxt UI e GSAP**. As conversas ficam no estado da sessão, sem conexão ao banco ou persistência implementada na aplicação.
+
+## Identificação do Supabase
+
+O projeto Supabase de referência é **fluxo-de-clientes**, da organização **quadrilha_calango**, com identificador **`bkhuyaivdvxjqybcglyo`** e banco **`postgres`**. Região: **São Paulo (`sa-east-1`)**.
+
+Consulte o [registro de identificação do Supabase](docs/SUPABASE.md) e os [metadados em INTEGRATIONS.yaml](INTEGRATIONS.yaml) antes de trabalhar nessa integração. [Abrir o projeto no Supabase](https://supabase.com/dashboard/project/bkhuyaivdvxjqybcglyo).
+
+Este registro contém somente identificação pública; a conexão da aplicação ao Supabase ainda não está implementada.
 
 ## Desenvolvimento
 
