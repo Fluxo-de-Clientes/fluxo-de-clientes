@@ -43,14 +43,18 @@ Acesse o painel do GitHub em:
 
 ## 2. Repositórios esperados
 
+Esta tabela define os papéis e destinos previstos para os repositórios. Ela não comprova que serviços, permissões ou ambientes estejam ativos. O destino do repositório principal foi atualizado para Netlify após consulta ao deploy publicado; os demais destinos continuam sendo referências de arquitetura até verificação específica.
+
 | Repository | product | component | environment | criticality | deploy_target | agent_access |
 |---|---|---|---|---|---|---|
-| fluxo-de-clientes | fluxo-de-clientes | app | production | high | saas-vps | read-write |
+| fluxo-de-clientes | fluxo-de-clientes | app | production | high | netlify | read-write |
 | fluxo-de-clientes-database | fluxo-de-clientes | database | production | critical | supabase | read-write |
 | fluxo-de-clientes-workers | fluxo-de-clientes | workers | production | critical | workers-vps | read-write |
 | fluxo-de-clientes-infra | fluxo-de-clientes | infra | production | critical | github-actions | read-write |
 | fluxo-de-clientes-docs | fluxo-de-clientes | docs | production | medium | gitbook | read-write |
 | .github | fluxo-de-clientes | org | production | high | github-actions | read-write |
+
+O [status canônico do projeto](PROJECT-STATUS.md) registra a infraestrutura observada, os commits e as evidências. Placeholders de `INFRASTRUCTURE.yaml`, URLs em `PROJECT.yaml` e valores de propriedades recomendadas não devem ser apresentados como implantação confirmada. Esta documentação também não comprova que as propriedades e proteções sugeridas abaixo já estejam configuradas no GitHub.
 
 ## 3. Regras de proteção de branch
 
@@ -130,4 +134,16 @@ Nunca comitar valores reais em código. Sempre registrar no GitHub Secrets ou Va
 
 ## 7. Próximo passo prático
 
-Depois de concluir esta governança, a próxima fase é iniciar a edição do site e da aplicação com as convenções do produto já padronizadas.
+Consulte o [status do projeto](PROJECT-STATUS.md) para conhecer o código integrado, os PRs em revisão, a implantação confirmada e as próximas ações. O diagnóstico e a prevenção do incidente de build estão em [BUILD-RUNTIME.md](BUILD-RUNTIME.md).
+
+## 8. Status do projeto e comunicação de mudanças
+
+- A fonte canônica do estado consolidado é `Fluxo-de-Clientes/fluxo-de-clientes/docs/PROJECT-STATUS.md`.
+- Atualize o status no mesmo PR que altera comportamento relevante, build, dependências, infraestrutura ou condições de entrega. Registre data, repositório, branch ou commit, ambiente, mudança, validações, limitações e próximo passo.
+- Distinga trabalho **proposto**, **em desenvolvimento**, **em revisão**, **integrado à main** e **implantado**. Um PR aberto, um build aprovado ou a seleção de uma versão no painel do provedor não comprovam implantação.
+- Associe cada resultado ao commit e à execução verificados. Não apresente testes de uma branch, de um commit anterior ou com ajustes temporários como validação de outra configuração.
+- Para incidentes de build, registre sintoma, causa comprovada, correção, prevenção e links de evidência. Atualizações de dependências devem responder a uma necessidade demonstrada; confira primeiro runtime, lockfile e ambiente de execução.
+- Mantenha referências à fonte canônica nos repositórios de documentação e governança da organização. Documentos de cada componente devem tratar seu escopo e apontar para o status geral, sem duplicar versões independentes dele.
+- Use PRs e documentos vinculados para comunicar mudanças em todo o projeto. Atualize os pontos de entrada quando uma fonte canônica for criada ou movida.
+- Não inclua credenciais, dados pessoais de clientes ou logs com tokens nos registros. Documentação descreve permissões e acessos existentes; não os concede.
+- Após integração e implantação, atualize os respectivos estados com evidências. Se a execução ou o runtime efetivo não puderem ser consultados, registre essa limitação explicitamente.
