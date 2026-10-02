@@ -5,8 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin)
 
-const { createChat } = useVisualChats()
-
 const solutions = [
   { title: 'Marketing', text: 'Veja a origem dos contatos.', icon: 'i-lucide-megaphone' },
   { title: 'Funil de clientes', text: 'Acompanhe cada etapa.', icon: 'i-lucide-filter' },
@@ -31,17 +29,12 @@ const audiences = [
 const faqs = [
   { question: 'Como a plataforma ajuda no atendimento?', answer: 'Reúne conversas, responsáveis e etapas para que a equipe acompanhe cada contato com contexto.' },
   { question: 'A IA pode apoiar a minha equipe?', answer: 'A IA ajuda a resumir conversas e sinalizar pontos de atenção. A equipe mantém o controle das decisões.' },
-  { question: 'Como conhecer os recursos disponíveis?', answer: 'Explore a demonstração local desta aplicação para conhecer o fluxo de conversas e atendimento.' }
+  { question: 'Como conhecer os recursos disponíveis?', answer: 'Solicite uma demonstração e informe o que precisa organizar. A equipe vai apresentar as possibilidades para o seu caso.' }
 ]
 
 const chartTrace = `M 2.5 115.7 L 5.0 114.2 L 7.5 112.7 L 9.9 112.7 L 12.4 112.7 L 14.9 111.2 L 17.4 111.2 L 19.9 111.2 L 22.4 109.8 L 24.9 108.3 L 27.3 106.8 L 29.8 105.3 L 32.3 103.8 L 34.8 102.4 L 37.3 100.9 L 39.8 97.9 L 42.3 97.9 L 47.2 97.9 L 49.7 97.9 L 52.2 99.4 L 54.7 100.9 L 57.2 102.4 L 59.7 102.4 L 62.1 102.4 L 64.6 102.4 L 67.1 100.9 L 69.6 99.4 L 72.1 97.9 L 74.6 95.0 L 77.1 93.5 L 79.5 90.5 L 82.0 89.0 L 84.5 86.1 L 87.0 86.1 L 89.5 84.6 L 92.0 86.1 L 94.5 86.1 L 96.9 87.6 L 99.4 89.0 L 101.9 90.5 L 104.4 92.0 L 106.9 93.5 L 109.4 95.0 L 111.8 96.4 L 114.3 96.4 L 116.8 97.9 L 119.3 97.9 L 121.8 96.4 L 124.3 96.4 L 126.8 95.0 L 129.2 93.5 L 131.7 90.5 L 134.2 89.0 L 136.7 86.1 L 139.2 84.6 L 141.7 83.1 L 144.2 81.6 L 146.6 80.2 L 149.1 78.7 L 151.6 77.2 L 154.1 74.2 L 156.6 72.8 L 159.1 71.3 L 161.6 69.8 L 164.0 68.3 L 166.5 66.8 L 169.0 65.4 L 171.5 65.4 L 174.0 65.4 L 176.5 65.4 L 179.0 65.4 L 181.4 66.8 L 183.9 66.8 L 186.4 68.3 L 188.9 71.3 L 191.4 72.8 L 193.9 74.2 L 196.4 75.7 L 198.8 78.7 L 201.3 80.2 L 203.8 81.6 L 206.3 83.1 L 208.8 84.6 L 211.3 84.6 L 213.8 84.6 L 216.2 84.6 L 218.7 84.6 L 221.2 83.1 L 223.7 83.1 L 226.2 81.6 L 228.7 78.7 L 231.2 77.2 L 233.6 75.7 L 236.1 72.8 L 238.6 71.3 L 241.1 68.3 L 243.6 66.8 L 246.1 65.4 L 248.6 62.4 L 251.0 60.9 L 253.5 59.4 L 256.0 58.0 L 258.5 56.5 L 261.0 55.0 L 263.5 55.0 L 266.0 56.5 L 268.4 56.5 L 270.9 56.5 L 273.4 56.5 L 275.9 56.5 L 278.4 55.0 L 280.9 53.5 L 283.4 50.6 L 285.8 49.1 L 288.3 46.1 L 290.8 43.2 L 293.3 40.2 L 295.8 38.7 L 298.3 35.8 L 300.8 34.3 L 303.2 34.3 L 305.7 34.3 L 308.2 35.8 L 310.7 37.2 L 313.2 38.7 L 315.7 40.2 L 318.2 41.7 L 320.6 43.2 L 323.1 44.6 L 325.6 46.1 L 328.1 46.1 L 330.6 47.6 L 333.1 47.6 L 335.5 47.6 L 338.0 46.1 L 340.5 46.1 L 343.0 44.6 L 345.5 43.2 L 348.0 43.2 L 350.5 43.2 L 352.9 44.6 L 355.4 44.6 L 357.9 44.6 L 360.4 44.6 L 362.9 43.2 L 365.4 43.2 L 367.9 41.7 L 370.3 38.7 L 372.8 35.8 L 375.3 32.8 L 377.8 29.8 L 380.3 26.9 L 382.8 25.4 L 385.3 25.4 L 387.7 26.9 L 390.2 28.4 L 392.7 29.8 L 395.2 29.8 L 397.7 31.3 L 400.2 29.8 L 402.7 29.8 L 405.1 28.4 L 407.6 25.4 L 410.1 22.4 L 412.6 21.0 L 415.1 19.5 L 417.6 21.0 L 420.1 21.0 L 422.5 22.4`
 const chartAreaTrace = `${chartTrace} L 422.5 140 H 2.5 Z`
 const chartPreviousTrace = `M 2.5 126.0 L 5.0 126.0 L 7.5 126.0 L 9.9 126.0 L 12.4 124.6 L 14.9 124.6 L 17.4 124.6 L 19.9 124.6 L 22.4 124.6 L 24.9 123.1 L 27.3 123.1 L 29.8 123.1 L 32.3 123.1 L 34.8 123.1 L 37.3 123.1 L 39.8 123.1 L 42.3 123.1 L 44.7 123.1 L 47.2 123.1 L 49.7 123.1 L 52.2 121.6 L 54.7 121.6 L 57.2 121.6 L 59.7 120.1 L 62.1 120.1 L 64.6 120.1 L 67.1 120.1 L 69.6 120.1 L 72.1 121.6 L 74.6 121.6 L 77.1 121.6 L 79.5 121.6 L 82.0 121.6 L 84.5 121.6 L 87.0 121.6 L 89.5 121.6 L 92.0 121.6 L 94.5 121.6 L 96.9 120.1 L 99.4 120.1 L 101.9 120.1 L 104.4 118.6 L 106.9 118.6 L 109.4 118.6 L 111.8 118.6 L 114.3 118.6 L 116.8 118.6 L 119.3 118.6 L 121.8 118.6 L 124.3 117.2 L 126.8 117.2 L 129.2 115.7 L 131.7 115.7 L 134.2 114.2 L 136.7 114.2 L 139.2 114.2 L 141.7 114.2 L 144.2 115.7 L 146.6 115.7 L 149.1 115.7 L 151.6 115.7 L 154.1 117.2 L 156.6 117.2 L 159.1 117.2 L 161.6 117.2 L 164.0 117.2 L 166.5 117.2 L 169.0 115.7 L 171.5 115.7 L 174.0 115.7 L 176.5 114.2 L 179.0 114.2 L 181.4 114.2 L 183.9 114.2 L 186.4 112.7 L 188.9 112.7 L 191.4 111.2 L 193.9 111.2 L 196.4 111.2 L 198.8 109.8 L 201.3 109.8 L 203.8 109.8 L 206.3 108.3 L 208.8 108.3 L 211.3 108.3 L 213.8 108.3 L 216.2 108.3 L 218.7 108.3 L 221.2 109.8 L 223.7 109.8 L 226.2 109.8 L 228.7 109.8 L 231.2 109.8 L 233.6 109.8 L 236.1 109.8 L 238.6 109.8 L 241.1 109.8 L 243.6 108.3 L 246.1 108.3 L 248.6 106.8 L 251.0 106.8 L 253.5 105.3 L 256.0 105.3 L 258.5 103.8 L 261.0 102.4 L 263.5 102.4 L 266.0 100.9 L 268.4 100.9 L 270.9 99.4 L 273.4 99.4 L 275.9 97.9 L 278.4 97.9 L 280.9 97.9 L 283.4 97.9 L 285.8 97.9 L 288.3 97.9 L 290.8 99.4 L 293.3 99.4 L 295.8 100.9 L 298.3 100.9 L 300.8 102.4 L 303.2 102.4 L 305.7 102.4 L 308.2 103.8 L 310.7 103.8 L 313.2 103.8 L 315.7 103.8 L 318.2 103.8 L 320.6 103.8 L 323.1 103.8 L 325.6 103.8 L 328.1 102.4 L 330.6 102.4 L 333.1 100.9 L 335.5 100.9 L 338.0 99.4 L 340.5 99.4 L 343.0 97.9 L 345.5 97.9 L 348.0 99.4 L 350.5 99.4 L 352.9 100.9 L 355.4 100.9 L 357.9 102.4 L 360.4 102.4 L 362.9 103.8 L 365.4 103.8 L 367.9 103.8 L 370.3 103.8 L 372.8 103.8 L 375.3 103.8 L 377.8 102.4 L 380.3 102.4 L 382.8 102.4 L 385.3 100.9 L 387.7 99.4 L 390.2 99.4 L 392.7 97.9 L 395.2 97.9 L 397.7 96.4 L 400.2 95.0 L 402.7 95.0 L 405.1 93.5 L 407.6 93.5 L 410.1 93.5 L 412.6 93.5 L 415.1 95.0 L 417.6 95.0 L 420.1 96.4 L 422.5 96.4`
-
-function openDemo(message: string) {
-  const id = createChat(message)
-  if (id) navigateTo(`/chat/${id}`)
-}
 
 onMounted(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -88,8 +81,8 @@ onBeforeUnmount(() => {
           <a href="#perguntas">Perguntas</a>
         </nav>
         <div class="header-actions">
-          <button class="button button-light" @click="openDemo('Quero acessar a plataforma')">Entrar</button>
-          <button class="button button-dark" @click="openDemo('Quero solicitar uma demonstração')">Solicitar demonstração</button>
+          <NuxtLink to="/entrar" class="button button-light">Entrar</NuxtLink>
+          <NuxtLink to="/demonstracao" class="button button-dark">Solicitar demonstração</NuxtLink>
         </div>
       </div>
     </header>
@@ -102,9 +95,9 @@ onBeforeUnmount(() => {
             <h1>Marketing, atendimento e dados no <span>mesmo lugar.</span></h1>
             <p class="hero-description">Organize conversas, acompanhe o funil e use IA para apoiar a próxima decisão.</p>
             <div class="hero-actions">
-              <button class="button button-dark button-arrow" @click="openDemo('Quero solicitar uma demonstração')">
+              <NuxtLink to="/demonstracao" class="button button-dark button-arrow">
                 Solicitar demonstração <UIcon name="i-lucide-arrow-right" />
-              </button>
+              </NuxtLink>
               <a class="button button-sage" href="#solucoes">Explorar a plataforma</a>
             </div>
             <p class="hero-note">Uma visão clara de quem chega e do que acontece depois.</p>
@@ -163,11 +156,11 @@ onBeforeUnmount(() => {
                   <div class="funnel-row"><span>Propostas</span><i class="funnel-bar funnel-bar-three" /><b>18</b></div>
                 </section>
               </div>
-              <button class="next-action" @click="openDemo('Revisar conversas sem retorno')">
+              <div class="next-action" aria-hidden="true">
                 <span class="next-icon"><UIcon name="i-lucide-waypoints" /></span>
                 <span><strong>Próxima ação</strong><small>Revisar conversas sem retorno</small></span>
                 <UIcon name="i-lucide-chevron-right" />
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -221,7 +214,7 @@ onBeforeUnmount(() => {
               <li><UIcon name="i-lucide-circle-check" /> Etapa e responsável</li>
               <li><UIcon name="i-lucide-circle-check" /> Histórico da conversa</li>
             </ul>
-            <a href="#como-funciona" class="text-link">Conhecer o funil <UIcon name="i-lucide-arrow-right" /></a>
+            <NuxtLink to="/demonstracao?interesse=funil" class="text-link">Conhecer o funil <UIcon name="i-lucide-arrow-right" /></NuxtLink>
           </div>
         </div>
       </section>
@@ -237,7 +230,7 @@ onBeforeUnmount(() => {
             <div class="assistant-heading"><span><UIcon name="i-lucide-waypoints" /> Assistente de análise</span><small>Exemplo ilustrativo</small></div>
             <div class="assistant-note">
               <UIcon name="i-lucide-sparkles" />
-              <div><strong>Há conversas aguardando retorno.</strong><p>Alguns contatos estão sem atividade há mais de 3 dias. Reveja e defina o próximo passo.</p><button class="button button-assistant" @click="openDemo('Revisar sugestões de conversas sem retorno')">Revisar sugestões</button></div>
+              <div><strong>Há conversas aguardando retorno.</strong><p>Alguns contatos estão sem atividade há mais de 3 dias. Reveja e defina o próximo passo.</p><span class="button button-assistant" aria-hidden="true">Exemplo ilustrativo</span></div>
             </div>
             <div class="automation-box">
               <strong>Sugestão de automação</strong>
@@ -289,7 +282,7 @@ onBeforeUnmount(() => {
       <section id="contato" class="cta-section" data-reveal>
         <div class="site-container cta-inner">
           <div><h2>Vamos organizar o seu fluxo?</h2><p>Conheça a plataforma e veja o que faz sentido para sua operação.</p></div>
-          <button class="button button-dark button-arrow" @click="openDemo('Quero organizar meu fluxo e conhecer a plataforma')">Solicitar demonstração <UIcon name="i-lucide-arrow-right" /></button>
+          <NuxtLink to="/demonstracao" class="button button-dark button-arrow">Solicitar demonstração <UIcon name="i-lucide-arrow-right" /></NuxtLink>
         </div>
       </section>
     </main>
@@ -297,7 +290,7 @@ onBeforeUnmount(() => {
     <footer class="site-footer">
       <div class="site-container footer-inner">
         <NuxtLink to="/" class="footer-brand" aria-label="Fluxo de Clientes, início"><BrandLogo class="footer-logo" /><small>Marketing, atendimento e dados conectados.</small></NuxtLink>
-        <nav aria-label="Navegação do rodapé"><a href="#plataforma">Plataforma</a><a href="#contato">Demonstração</a><a href="#contato">Contato</a><a href="#perguntas">Privacidade</a><a href="#perguntas">Termos</a></nav>
+        <nav aria-label="Navegação do rodapé"><a href="#plataforma">Plataforma</a><NuxtLink to="/demonstracao">Demonstração</NuxtLink><NuxtLink to="/entrar">Entrar</NuxtLink></nav>
         <small class="copyright">© 2026 FLUXO DE CLIENTES</small>
       </div>
     </footer>
@@ -397,7 +390,7 @@ onBeforeUnmount(() => {
 .funnel-bar-one { width: 66px; background: linear-gradient(90deg, #f46b4d, #f27c5c); }
 .funnel-bar-two { width: 42px; background: #c6cdb5; }
 .funnel-bar-three { width: 25px; background: #b5bea4; }
-.next-action { position: absolute; right: 9px; bottom: 8px; min-width: 184px; display: flex; align-items: center; gap: 8px; padding: 7px 9px; border: 1px solid #edece7; border-radius: 12px; background: #fff; box-shadow: 0 5px 15px rgba(25, 29, 23, .12); text-align: left; cursor: pointer; }
+.next-action { position: absolute; right: 9px; bottom: 8px; min-width: 184px; display: flex; align-items: center; gap: 8px; padding: 7px 9px; border: 1px solid #edece7; border-radius: 12px; background: #fff; box-shadow: 0 5px 15px rgba(25, 29, 23, .12); text-align: left; }
 .next-icon { color: var(--orange); }
 .next-icon :deep(svg), .next-action > :deep(svg) { width: 15px; height: 15px; }
 .next-action > span:nth-child(2) { flex: 1; }
@@ -542,7 +535,6 @@ onBeforeUnmount(() => {
   .brand-link { width: 138px; flex-basis: 138px; }
   .header-actions { gap: 6px; }
   .header-actions .button { min-height: 36px; padding-inline: 10px; font-size: 10px; }
-  .header-actions .button-light { display: none; }
   .main-nav { justify-content: space-between; gap: 8px; }
   .main-nav a { font-size: 10px; }
   .hero-grid { padding-top: 17px; }

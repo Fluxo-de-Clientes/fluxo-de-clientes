@@ -2,7 +2,7 @@
 import { pt_br } from '@nuxt/ui/locale'
 
 useHead({ htmlAttrs: { lang: 'pt-BR' } })
-useSeoMeta({ title: 'Fluxo de Clientes', description: 'Interface de conversas do Fluxo de Clientes.' })
+useSeoMeta({ title: 'Fluxo de Clientes', description: 'Organize contatos, acompanhe o atendimento e defina a próxima ação da equipe.' })
 </script>
 
 <template>
