@@ -1,0 +1,160 @@
+{
+  "report": [
+    {
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    },
+    {
+      "viewport": 1280,
+      "scrollWidth": 1280,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    },
+    {
+      "viewport": 1152,
+      "scrollWidth": 1152,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    },
+    {
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    },
+    {
+      "viewport": 768,
+      "scrollWidth": 768,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    },
+    {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    },
+    {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "overflow": [],
+      "metrics": [
+        "128",
+        "32",
+        "18",
+        "9,4%"
+      ],
+      "contacts": 6,
+      "sections": [
+        "plataforma",
+        "solucoes",
+        "funil",
+        "ai-section",
+        "como-funciona",
+        "audience-section",
+        "perguntas",
+        "contato"
+      ]
+    }
+  ],
+  "errors": [],
+  "interactions": "CTA, dashboard action, route return twice, FAQ, motion preference change, keyboard replay passed"
+}

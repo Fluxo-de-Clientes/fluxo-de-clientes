@@ -2,6 +2,16 @@
 
 Aplicação Nuxt 4 para captação de demonstrações e gestão inicial de contatos, com Supabase Auth, Postgres e políticas de Row Level Security.
 
+A página inicial apresenta um painel demonstrativo, um funil com contatos fictícios e um fluxo visual do contato à oportunidade. O projeto usa **Nuxt 4, Vue 3, TypeScript, Nuxt UI e GSAP**. As conversas da demonstração local ficam no estado da sessão.
+
+## Identificação do Supabase
+
+O projeto Supabase de referência é **fluxo-de-clientes**, da organização **quadrilha_calango**, com identificador **`bkhuyaivdvxjqybcglyo`** e banco **`postgres`**. Região: **São Paulo (`sa-east-1`)**.
+
+Consulte o [registro de identificação do Supabase](docs/SUPABASE.md) e os [metadados em INTEGRATIONS.yaml](INTEGRATIONS.yaml) antes de trabalhar nessa integração. [Abrir o projeto no Supabase](https://supabase.com/dashboard/project/bkhuyaivdvxjqybcglyo).
+
+Este registro contém somente identificação pública; a conexão da aplicação depende das variáveis de ambiente e da migration descritas abaixo.
+
 ## Requisitos
 
 - Node.js 22
@@ -42,6 +52,8 @@ Aplicação Nuxt 4 para captação de demonstrações e gestão inicial de conta
 
 Antes de publicar, configure a política aprovada de privacidade e retenção, os endereços de produção permitidos no Supabase Auth e o canal de acompanhamento/aviso dos pedidos comerciais. Convites e administração de membros ainda não fazem parte desta entrega; o primeiro usuário é provisionado pelo Supabase.
 
+O servidor de desenvolvimento usa `http://localhost:3000` por padrão. A instalação executa `nuxt prepare` pelo script `postinstall`.
+
 ## Funcionalidades disponíveis
 
 - Formulário de demonstração com validação no navegador e no servidor. A confirmação aparece somente depois que o pedido é registrado.
@@ -53,7 +65,28 @@ Antes de publicar, configure a política aprovada de privacidade e retenção, o
 ## Verificação
 
 ```bash
+npm test
 npm run build
 ```
 
 As migrations e políticas podem ser validadas em um projeto Supabase local ou em ambiente de desenvolvimento antes de qualquer aplicação a produção. As chaves nunca devem ser versionadas.
+
+## Comandos disponíveis
+
+| Comando | Finalidade |
+| --- | --- |
+| `npm run dev` | Iniciar o servidor de desenvolvimento. |
+| `npm run build` | Gerar o build de produção. |
+| `npm run preview` | Servir localmente o build de produção já gerado. |
+| `npm run generate` | Executar a geração estática do Nuxt. |
+| `npm test` | Validar os dados e a geometria do gráfico com o executor de testes do Node.js. |
+
+## Estrutura e documentação
+
+- `app/pages/`: página inicial, demonstração, autenticação, gestão de contatos e rotas de conversa.
+- `app/components/landing/`: painel, gráfico, funil e animação demonstrativa.
+- `app/utils/contactTrend.ts`: dados ilustrativos e cálculo das curvas do gráfico.
+- `app/composables/useVisualChats.ts`: estado transitório das conversas.
+- [Refinamento do painel e da landing page](docs/DASHBOARD-PREMIUM.md): decisões, dados, comportamento responsivo, animações e validação.
+- [Governança do GitHub](docs/GITHUB-GOVERNANCE.md): identificação do repositório e convenções de governança.
+- [Orientações para contribuir](AGENTS.md): padrões e limites da aplicação.

@@ -22,6 +22,14 @@ This repository is a Nuxt 4 application for the Fluxo de Clientes web app. It us
 - Chat data is intentionally transient and separate from operational contact history; do not add external chat or AI API calls unless explicitly requested.
 - The product copy is in Portuguese; preserve that language in UI labels and user-facing text.
 
+## Supabase identification
+
+- Before any Supabase task, read `docs/SUPABASE.md` and the `supabase` entry in `INTEGRATIONS.yaml`.
+- The verified project ref is `bkhuyaivdvxjqybcglyo` (project `fluxo-de-clientes`, organization `quadrilha_calango`, database `postgres`). Match the project ref when selecting the target; names alone are not unique identifiers.
+- These files contain public identification only. Do not add API keys, tokens, database passwords, credentials, or connection strings to them.
+- Recording an existing project does not implement an application connection or authorize database changes. Preserve the session-only chat behavior unless the requested task explicitly changes it.
+- If the connected project differs from this record, confirm the target before making changes. Update the identification record and its verification date together when an authorized project change occurs.
+
 ## Chat feature conventions
 
 - The chat model is defined in `app/types/chat.ts`.
