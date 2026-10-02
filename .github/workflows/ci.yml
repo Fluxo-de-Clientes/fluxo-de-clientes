@@ -24,3 +24,5 @@ jobs:
 
       - name: Build app
         run: npm run build
+      - name: Test chart data and geometry
+        run: npm test
