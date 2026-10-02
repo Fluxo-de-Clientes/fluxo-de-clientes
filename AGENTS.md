@@ -42,7 +42,8 @@ This repository is a Nuxt 4 application for the Fluxo de Clientes web app. It us
 
 Run these from the repo root:
 
-- Install dependencies: `npm install`
+- Select Node.js from `.nvmrc` (currently `22.23.1`) before installing. CI and Netlify builds use this file as the runtime source of truth.
+- Install the committed dependency tree: `npm ci`. The project enables `engine-strict` so incompatible runtimes fail during installation.
 - Start the dev server: `npm run dev`
 - Production build: `npm run build`
 - Preview production build: `npm run preview`
@@ -53,10 +54,17 @@ Run these from the repo root:
 - Keep component logic readable and close to the feature it affects.
 - If a change introduces new state, place that state in the relevant composable or type file instead of scattering it across components.
 - Do not add unnecessary complexity or persistence for a demo app that is explicitly session-based.
+- Investigate build failures using the failing commit, full log, actual Node/npm versions and lockfile before changing dependencies. See `docs/BUILD-RUNTIME.md` for the historical Node 20 failure and the runtime policy.
+- Update `docs/PROJECT-STATUS.md` in the same PR as material product, build, dependency or infrastructure changes. Record evidence and distinguish proposed, reviewed, merged and deployed work; a green CI check does not prove a deployment.
+- When updating Node, review `.nvmrc`, `package.json` engines and the lockfile root metadata together, then run a clean install and build. Do not bypass `engine-strict` to hide incompatibilities.
 
 ## Reference files
 
 - `README.md` — setup and standard Nuxt commands
+- `docs/PROJECT-STATUS.md` — canonical project status, validation evidence and pending work
+- `docs/GITHUB-GOVERNANCE.md` — repository governance and status maintenance
+- `docs/BUILD-RUNTIME.md` — build incident diagnosis and runtime operations
+- `.github/agents/build-error-research.agent.md` — build investigation agent
 - `nuxt.config.ts` — app config and Nuxt modules
 - `app/composables/useVisualChats.ts` — state and chat helpers
 - `app/composables/useCurrentOrganization.ts` — organization selection and membership
