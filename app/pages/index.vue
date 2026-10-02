@@ -65,6 +65,7 @@ onBeforeUnmount(() => motion?.revert())
         <nav class="main-nav" aria-label="Navegação principal">
           <a href="#plataforma">Plataforma</a>
           <a href="#solucoes">Soluções</a>
+          <a href="#integracoes">Integrações</a>
           <a href="#como-funciona">Como funciona</a>
           <a href="#perguntas">Perguntas</a>
         </nav>
@@ -106,6 +107,12 @@ onBeforeUnmount(() => motion?.revert())
               <div><h3>{{ solution.title }}</h3><p>{{ solution.text }}</p></div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section id="integracoes" class="integrations-section" data-reveal>
+        <div class="site-container">
+          <LandingIntegrationsPanel />
         </div>
       </section>
 
@@ -270,6 +277,7 @@ onBeforeUnmount(() => motion?.revert())
 .solution-icon :deep(svg), .process-icon :deep(svg) { width: 21px; height: 21px; stroke-width: 1.8; }
 .solution-item h3, .audience-card h3 { margin: 0 0 4px; font-size: 13px; font-weight: 800; }
 .solution-item p, .audience-card p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.35; }
+.integrations-section { padding: 48px 0 56px; background: rgba(255, 255, 255, .73); }
 .funnel-section { padding: 56px 0; background: var(--sage); }
 .funnel-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(270px, .7fr); align-items: center; gap: 48px; }
 .funnel-copy { max-width: 360px; }
@@ -355,6 +363,7 @@ onBeforeUnmount(() => motion?.revert())
   .hero-copy { max-width: 560px; }
   .hero-copy h1 { max-width: 520px; font-size: clamp(38px, 7vw, 52px); }
   .solutions-section { padding-top: 26px; }
+  .integrations-section { padding-block: 40px 48px; }
   .funnel-grid { grid-template-columns: 1fr; gap: 23px; }
   .funnel-copy { max-width: 600px; }
   .ai-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -370,8 +379,8 @@ onBeforeUnmount(() => motion?.revert())
   .brand-link { width: 138px; flex-basis: 138px; }
   .header-actions { gap: 6px; }
   .header-actions .button { min-height: 36px; padding-inline: 10px; font-size: 10px; }
-  .main-nav { justify-content: space-between; gap: 8px; }
-  .main-nav a { font-size: 12px; }
+  .main-nav { justify-content: center; flex-wrap: wrap; gap: 5px 15px; }
+  .main-nav a { font-size: 11px; }
   .hero-grid { padding-top: 17px; }
   .hero-copy h1 { font-size: 38px; }
   .hero-description { font-size: 16px; }
