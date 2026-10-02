@@ -2,6 +2,7 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const route = useRoute()
+const isHome = computed(() => route.path === '/')
 const { chats, renameChat, deleteChat } = useVisualChats()
 const sidebarOpen = ref(false)
 const searchOpen = ref(false)
@@ -34,11 +35,15 @@ defineShortcuts({ meta_o: () => navigateTo('/') })
 </script>
 
 <template>
-  <UDashboardGroup unit="rem">
+  <div v-if="isHome" class="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-white">
+    <slot />
+  </div>
+
+  <UDashboardGroup v-else unit="rem">
     <UDashboardSidebar id="default" v-model:open="sidebarOpen" :min-size="12" collapsible resizable :menu="{ inset: true }" class="border-r-0 py-4 dark:[--ui-bg-elevated:var(--ui-color-neutral-900)]">
       <template #header="{ collapsed }">
         <NuxtLink v-if="!collapsed" to="/" class="flex items-center gap-2 rounded-md focus-visible:outline-primary" aria-label="Fluxo de Clientes — início">
-          <Logo /><span class="text-lg font-bold text-highlighted">Fluxo de Clientes</span>
+          <BrandLogo class="w-36" />
         </NuxtLink>
         <UDashboardSidebarCollapse class="ms-auto" />
       </template>

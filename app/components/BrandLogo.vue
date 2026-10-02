@@ -1,3 +1,9 @@
 <template>
-  <UIcon name="i-lucide-messages-square" class="size-8 shrink-0 text-primary" />
+  <img
+    src="/brand/assinatura-horizontal-original.svg"
+    alt="Fluxo de Clientes"
+    width="543"
+    height="200"
+    class="block h-auto max-w-full"
+  >
 </template>
