@@ -1,0 +1,17 @@
+project:
+  name: Fluxo de Clientes
+  slug: fluxo-de-clientes
+  display_name: Fluxo de Clientes
+  description: "SaaS para gestão de fluxo de clientes, automação operacional e acompanhamento comercial."
+  organization: Fluxo-de-Clientes
+  repository_prefix: fluxo-de-clientes
+  environment: production
+  owner: "diretoria@fluxodeclientes.com.br"
+  technical_owner: "time-tecnologia@fluxodeclientes.com.br"
+  documentation_url: "https://docs.fluxodeclientes.com.br"
+  production_url: "https://app.fluxodeclientes.com.br"
+  app_url: "https://app.fluxodeclientes.com.br"
+  api_url: "https://api.fluxodeclientes.com.br"
+  status: active
+  product_type: saas
+  lifecycle: template-reference

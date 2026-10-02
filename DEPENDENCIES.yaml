@@ -1,0 +1,41 @@
+dependencies:
+  web:
+    name: fluxo-de-clientes-web
+    depends_on:
+      - fluxo-de-clientes-api
+      - fluxo-de-clientes-database
+    deploy_target: saas-vps
+
+  api:
+    name: fluxo-de-clientes-api
+    depends_on:
+      - fluxo-de-clientes-database
+      - fluxo-de-clientes-infra
+    deploy_target: saas-vps
+
+  database:
+    name: fluxo-de-clientes-database
+    depends_on:
+      - supabase
+    deploy_target: supabase
+
+  workers:
+    name: fluxo-de-clientes-workers
+    depends_on:
+      - fluxo-de-clientes-database
+      - redis
+      - external-apis
+    deploy_target: workers-vps
+
+  docs:
+    name: fluxo-de-clientes-docs
+    depends_on:
+      - gitbook
+    deploy_target: gitbook
+
+  infra:
+    name: fluxo-de-clientes-infra
+    depends_on:
+      - saas-vps
+      - workers-vps
+    deploy_target: github-actions

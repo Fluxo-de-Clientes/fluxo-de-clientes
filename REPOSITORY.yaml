@@ -1,0 +1,23 @@
+repository:
+  name: fluxo-de-clientes
+  product: Fluxo de Clientes
+  component: app
+  responsibility: "Aplicação web autenticada do produto SaaS"
+  criticality: high
+  environment: production
+  deploy_target: saas-vps
+  agent_access: read-write
+  documentation: "https://docs.fluxodeclientes.com.br"
+  dependencies:
+    - fluxo-de-clientes-database
+    - fluxo-de-clientes-api
+    - fluxo-de-clientes-infra
+  integrations:
+    - supabase
+    - netlify
+    - gitbook
+  default_branch: main
+  visibility: public
+  pr_required: true
+  protected_branches:
+    - main

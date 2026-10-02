@@ -1,0 +1,40 @@
+integrations:
+  supabase:
+    enabled: true
+    project_ref: "{{SUPABASE_PROJECT_REF}}"
+    url: "{{SUPABASE_URL}}"
+    region: "{{SUPABASE_REGION}}"
+    organization: "{{SUPABASE_ORGANIZATION}}"
+    environment: production
+
+  netlify:
+    enabled: true
+    site_name: "{{NETLIFY_SITE_NAME}}"
+    site_id: "{{NETLIFY_SITE_ID}}"
+    team: "{{NETLIFY_TEAM}}"
+    production_url: "{{NETLIFY_PRODUCTION_URL}}"
+    custom_domain: "{{NETLIFY_CUSTOM_DOMAIN}}"
+
+  meta:
+    enabled: false
+    app_id: "{{META_APP_ID}}"
+
+  ga4:
+    enabled: false
+    property_id: "{{GA4_PROPERTY_ID}}"
+
+  openai:
+    enabled: false
+    project_id: "{{OPENAI_PROJECT_ID}}"
+
+  whatsapp:
+    enabled: false
+    provider: "{{WHATSAPP_PROVIDER}}"
+
+  gitbook:
+    enabled: true
+    space_id: "{{GITBOOK_SPACE_ID}}"
+
+  n8n:
+    enabled: false
+    url: "{{N8N_URL}}"

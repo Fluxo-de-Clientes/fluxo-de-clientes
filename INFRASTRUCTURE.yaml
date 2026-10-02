@@ -1,0 +1,41 @@
+infrastructure:
+  saas_vps:
+    name: saas-vps
+    provider: vps-provider
+    region: "grande-sao-paulo"
+    public_ip: "{{SAAS_VPS_PUBLIC_IP}}"
+    hostname: "{{SAAS_VPS_HOSTNAME}}"
+    os: ubuntu
+    ssh_user: "{{SSH_USER}}"
+    ssh_port: 22
+    app_domain: "{{APP_DOMAIN}}"
+    api_domain: "{{API_DOMAIN}}"
+    deploy_path: "{{DEPLOY_PATH}}"
+    docker_network: "{{DOCKER_NETWORK}}"
+    nginx_config_path: "/etc/nginx/sites-enabled"
+    compose_path: "/opt/fluxo-de-clientes"
+    services:
+      app:
+        port: 3000
+        domain: "{{APP_DOMAIN}}"
+        container: fluxo-de-clientes-app
+        healthcheck: "/health"
+      api:
+        port: 4000
+        domain: "{{API_DOMAIN}}"
+        container: fluxo-de-clientes-api
+        healthcheck: "/api/health"
+
+  workers_vps:
+    name: workers-vps
+    provider: vps-provider
+    region: "grande-sao-paulo"
+    public_ip: "{{WORKER_VPS_PUBLIC_IP}}"
+    hostname: "{{WORKER_VPS_HOSTNAME}}"
+    deploy_path: "{{WORKER_DEPLOY_PATH}}"
+    redis:
+      host: "{{REDIS_HOST}}"
+      port: 6379
+    n8n:
+      url: "{{N8N_URL}}"
+    workers: []
