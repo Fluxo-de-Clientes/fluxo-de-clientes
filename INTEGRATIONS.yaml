@@ -1,10 +1,18 @@
 integrations:
   supabase:
+    # Identificação pública para inventário; não configura a conexão da aplicação.
     enabled: true
-    project_ref: "{{SUPABASE_PROJECT_REF}}"
-    url: "{{SUPABASE_URL}}"
-    region: "{{SUPABASE_REGION}}"
-    organization: "{{SUPABASE_ORGANIZATION}}"
+    project_name: "fluxo-de-clientes"
+    project_ref: "bkhuyaivdvxjqybcglyo"
+    url: "https://bkhuyaivdvxjqybcglyo.supabase.co"
+    dashboard_url: "https://supabase.com/dashboard/project/bkhuyaivdvxjqybcglyo"
+    region: "sa-east-1"
+    organization: "quadrilha_calango"
+    organization_id: "pornhctkinrizofmghmk"
+    database_name: "postgres"
+    identification_verified_on: "2026-10-02"
+    documentation: "docs/SUPABASE.md"
+    # Classificação preexistente do inventário; não verificada como ambiente ativo.
     environment: production
 
   netlify:

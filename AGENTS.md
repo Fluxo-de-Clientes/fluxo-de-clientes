@@ -15,9 +15,17 @@ This repository is a Nuxt 4 application for a client-flow demo. The app uses Vue
 - Prefer Nuxt patterns (`useState`, `computed`, `ref`, route params) over custom global state management.
 - Keep features localized in the `app/` tree unless a change clearly belongs elsewhere.
 - Use `@nuxt/ui` primitives before introducing ad-hoc custom UI.
-- This project is a front-end prototype: there is no backend, database, or persistence layer.
+- This application is a front-end prototype: no backend, database connection, or persistence layer is implemented in its runtime. An existing Supabase project is identified in `docs/SUPABASE.md`.
 - Chat data is intentionally transient; keep messages in session state only, and do not add external API calls unless explicitly requested.
 - The product copy is in Portuguese; preserve that language in UI labels and user-facing text.
+
+## Supabase identification
+
+- Before any Supabase task, read `docs/SUPABASE.md` and the `supabase` entry in `INTEGRATIONS.yaml`.
+- The verified project ref is `bkhuyaivdvxjqybcglyo` (project `fluxo-de-clientes`, organization `quadrilha_calango`, database `postgres`). Match the project ref when selecting the target; names alone are not unique identifiers.
+- These files contain public identification only. Do not add API keys, tokens, database passwords, credentials, or connection strings to them.
+- Recording an existing project does not implement an application connection or authorize database changes. Preserve the session-only chat behavior unless the requested task explicitly changes it.
+- If the connected project differs from this record, confirm the target before making changes. Update the identification record and its verification date together when an authorized project change occurs.
 
 ## Chat feature conventions
 
