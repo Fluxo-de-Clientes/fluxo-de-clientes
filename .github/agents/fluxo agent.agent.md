@@ -1,0 +1,1 @@
+c:\Users\User\Desktop\AGENTES IA\AGENTE FLUXO DE CLIENTES COPILOT GIT\Fluxo de clientes agent.md
