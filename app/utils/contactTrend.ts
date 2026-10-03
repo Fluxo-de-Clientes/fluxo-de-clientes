@@ -4,7 +4,7 @@ export interface TrendPoint {
   previous: number
 }
 
-// Illustrative cumulative contacts. The dashboard and chart share the same totals.
+// Cumulative contacts. The dashboard and chart share the same totals.
 export const contactTrend: readonly TrendPoint[] = [
   { day: 1, current: 3, previous: 2 },
   { day: 3, current: 8, previous: 6 },

@@ -5,6 +5,8 @@ import { contactTrend, createTrendPath, demoContactTotal, demoPreviousTotal } fr
 
 const chartRoot = ref<HTMLElement | null>(null)
 const currentLine = ref<SVGPathElement | null>(null)
+const selectedIndex = ref(contactTrend.length - 1)
+const selectedPoint = computed(() => contactTrend[selectedIndex.value] ?? contactTrend[contactTrend.length - 1]!)
 const chartId = useId()
 const gradientId = `contact-area-${chartId}`
 const titleId = `contact-title-${chartId}`
@@ -17,7 +19,17 @@ const currentPath = createTrendPath(series('current'))
 const previousPath = createTrendPath(series('previous'))
 const areaPath = `${currentPath} L ${plot.right} ${plot.bottom} L ${plot.left} ${plot.bottom} Z`
 const growth = Math.round((demoContactTotal / demoPreviousTotal - 1) * 100)
+const selectedLabel = computed(() => `${selectedPoint.value.day} de abril: ${selectedPoint.value.current} contatos, ${selectedPoint.value.previous} no período anterior`)
 let motion: ReturnType<typeof gsap.matchMedia> | undefined
+
+function selectPoint(event: PointerEvent) {
+  const chart = event.currentTarget as SVGSVGElement
+  const bounds = chart.getBoundingClientRect()
+  if (!bounds.width) return
+  const position = (event.clientX - bounds.left) / bounds.width * 400
+  selectedIndex.value = contactTrend.reduce((closest, point, index) =>
+    Math.abs(dayX(point.day) - position) < Math.abs(dayX(contactTrend[closest]!.day) - position) ? index : closest, 0)
+}
 
 onMounted(() => {
   gsap.registerPlugin(DrawSVGPlugin)
@@ -34,7 +46,7 @@ onBeforeUnmount(() => motion?.revert())
 </script>
 
 <template>
-  <section ref="chartRoot" class="preview-trend" aria-label="Evolução demonstrativa dos contatos">
+  <section ref="chartRoot" class="preview-trend" aria-label="Evolução dos contatos">
     <div class="preview-trend-heading">
       <div>
         <h3>Novos contatos</h3>
@@ -46,8 +58,8 @@ onBeforeUnmount(() => motion?.revert())
       <div class="preview-trend-y" aria-hidden="true">
         <span v-for="value in [0, 40, 80, 120]" :key="value" :style="{ top: `${valueY(value) / 166 * 100}%` }">{{ value }}</span>
       </div>
-      <svg class="preview-trend-chart" viewBox="0 0 400 166" role="img" :aria-labelledby="`${titleId} ${descriptionId}`">
-      <title :id="titleId">Contatos acumulados em abril — dados demonstrativos</title>
+      <svg class="preview-trend-chart" viewBox="0 0 400 166" role="img" :aria-labelledby="`${titleId} ${descriptionId}`" @pointermove="selectPoint" @pointerdown="selectPoint">
+      <title :id="titleId">Contatos acumulados em abril</title>
       <desc :id="descriptionId">O período começa com 3 contatos e termina com {{ demoContactTotal }}. O período anterior terminou com {{ demoPreviousTotal }}. Aumento de aproximadamente {{ growth }}%.</desc>
       <defs>
         <linearGradient :id="gradientId" x1="0" y1="0" x2="0" y2="1">
@@ -62,7 +74,9 @@ onBeforeUnmount(() => motion?.revert())
         <path :d="areaPath" :fill="`url(#${gradientId})`" />
         <path :d="previousPath" class="preview-previous-line" />
         <path ref="currentLine" :d="currentPath" class="preview-current-line" />
-        <circle :cx="plot.right" :cy="valueY(demoContactTotal)" r="4.5" fill="#f46b4d" stroke="#fff" stroke-width="2" />
+        <line :x1="dayX(selectedPoint.day)" :x2="dayX(selectedPoint.day)" :y1="plot.top" :y2="plot.bottom" class="preview-selected-guide" />
+        <circle :cx="dayX(selectedPoint.day)" :cy="valueY(selectedPoint.previous)" r="3.5" fill="#8a967d" stroke="#fff" stroke-width="2" />
+        <circle :cx="dayX(selectedPoint.day)" :cy="valueY(selectedPoint.current)" r="4.5" fill="#f46b4d" stroke="#fff" stroke-width="2" />
       </g>
       </svg>
     </div>
@@ -72,6 +86,14 @@ onBeforeUnmount(() => motion?.revert())
     <div class="preview-trend-legend" aria-hidden="true">
       <span><i class="preview-legend-current" /> Abril <b>{{ demoContactTotal }}</b></span>
       <span><i class="preview-legend-previous" /> Período anterior <b>{{ demoPreviousTotal }}</b></span>
+    </div>
+    <div class="preview-trend-explorer">
+      <label :for="`${chartId}-day`">Explorar por dia <strong>{{ selectedPoint.day }} abr</strong></label>
+      <input :id="`${chartId}-day`" v-model.number="selectedIndex" type="range" min="0" :max="contactTrend.length - 1" step="1" :aria-valuetext="selectedLabel" :aria-describedby="`${chartId}-values`">
+      <output :id="`${chartId}-values`" :for="`${chartId}-day`" class="preview-selected-values" aria-live="off">
+        <span><strong>{{ selectedPoint.current }}</strong> contatos</span>
+        <span><strong>{{ selectedPoint.previous }}</strong> no período anterior</span>
+      </output>
     </div>
   </section>
 </template>
@@ -94,6 +116,8 @@ onBeforeUnmount(() => motion?.revert())
 .preview-grid-line { stroke: #e9ece5; stroke-width: 1; vector-effect: non-scaling-stroke; }
 .preview-current-line, .preview-previous-line { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .preview-current-line { stroke: var(--preview-coral, #f46b4d); stroke-width: 2.7; }
+.preview-selected-guide { stroke: #a1ac96; stroke-width: 1; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
+.preview-trend-chart { cursor: crosshair; }
 .preview-previous-line { stroke: #8a967d; stroke-width: 1.7; stroke-dasharray: 4 5; }
 .preview-trend-legend { display: flex; flex-wrap: wrap; gap: 7px 13px; color: #5d6356; font-size: 11px; }
 .preview-trend-legend span { display: inline-flex; align-items: center; gap: 5px; }
@@ -101,9 +125,16 @@ onBeforeUnmount(() => motion?.revert())
 .preview-trend-legend i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; }
 .preview-legend-current { background: #f46b4d; }
 .preview-legend-previous { background: repeating-linear-gradient(90deg, #7f8b73 0 4px, transparent 4px 6px); }
+.preview-trend-explorer { margin-top: 13px; padding-top: 11px; border-top: 1px solid #e9ece5; }
+.preview-trend-explorer label { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #5d6356; font-size: 11px; }
+.preview-trend-explorer label strong { color: #353b2e; font-weight: 650; font-variant-numeric: tabular-nums; }
+.preview-trend-explorer input { display: block; width: 100%; height: 28px; margin: 1px 0; accent-color: #b64b31; cursor: pointer; }
+.preview-trend-explorer input:focus-visible { outline: 3px solid #ae3e20; outline-offset: 3px; border-radius: 4px; }
+.preview-selected-values { display: flex; flex-wrap: wrap; gap: 4px 12px; color: #5d6356; font-size: 11px; line-height: 1.4; }
+.preview-selected-values strong { color: #353b2e; font-weight: 650; font-variant-numeric: tabular-nums; }
 @container dashboard (max-width: 560px) {
   .preview-trend { padding: 16px 14px; }
-  .preview-trend p, .preview-trend-growth, .preview-trend-legend { font-size: 12px; }
+  .preview-trend p, .preview-trend-growth, .preview-trend-legend, .preview-trend-explorer label, .preview-selected-values { font-size: 12px; }
   .preview-trend h3 { font-size: 14px; }
 }
 </style>

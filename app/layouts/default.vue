@@ -78,7 +78,7 @@ defineShortcuts({ meta_o: () => navigateTo('/app/contatos/novo') })
               <option v-for="organization in organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</option>
             </select>
           </label>
-          <p class="px-2 pt-4 text-xs text-muted">Conversas demonstrativas desta sessão</p>
+          <p class="px-2 pt-4 text-xs text-muted">Conversas desta sessão</p>
           <UNavigationMenu :items="chatItems" orientation="vertical" :ui="{ link: 'pr-10', linkTrailing: 'absolute right-1' }">
             <template #chat-trailing="{ item }">
               <UDropdownMenu :items="actions(item.id)" :content="{ align: 'end' }">

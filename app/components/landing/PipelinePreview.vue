@@ -27,10 +27,39 @@ const columns = [
 ]
 
 const contactCount = columns.reduce((total, column) => total + column.contacts.length, 0)
+const searchId = useId()
+const searchInput = ref<HTMLInputElement | null>(null)
+const searchQuery = ref('')
+
+function normalizeSearch(value: string) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR')
+}
+
+const filteredColumns = computed(() => {
+  const query = normalizeSearch(searchQuery.value.trim())
+
+  return columns.map(column => ({
+    ...column,
+    contacts: column.contacts.filter(contact => normalizeSearch([
+      contact.name,
+      contact.source,
+      contact.nextStep,
+      contact.owner,
+      column.name
+    ].join(' ')).includes(query))
+  }))
+})
+
+const resultCount = computed(() => filteredColumns.value.reduce((total, column) => total + column.contacts.length, 0))
+
+function clearSearch() {
+  searchQuery.value = ''
+  searchInput.value?.focus()
+}
 </script>
 
 <template>
-  <figure class="board-preview" aria-label="Exemplo ilustrativo do funil de clientes">
+  <figure class="board-preview" aria-label="Funil de clientes por etapa de atendimento">
     <figcaption class="board-heading">
       <div class="board-heading-copy">
         <span class="board-heading-icon" aria-hidden="true"><UIcon name="i-lucide-panels-top-left" /></span>
@@ -39,12 +68,21 @@ const contactCount = columns.reduce((total, column) => total + column.contacts.l
           <p>{{ contactCount }} contatos · 3 etapas</p>
         </div>
       </div>
-      <span class="board-demo-label">Exemplo ilustrativo</span>
     </figcaption>
+
+    <div class="board-search">
+      <label :for="searchId">Buscar no funil</label>
+      <div class="board-search-field">
+        <UIcon name="i-lucide-search" aria-hidden="true" />
+        <input :id="searchId" ref="searchInput" v-model="searchQuery" type="search" autocomplete="off" :aria-describedby="`${searchId}-hint`" />
+        <UButton v-if="searchQuery" color="neutral" variant="ghost" class="board-clear-search" @click="clearSearch">Limpar</UButton>
+      </div>
+      <p :id="`${searchId}-hint`">Encontre por nome, canal, responsável ou próximo passo.</p>
+    </div>
 
     <div class="board-columns">
       <section
-        v-for="column in columns"
+        v-for="column in filteredColumns"
         :key="column.name"
         class="board-column"
         :class="`board-column-${column.tone}`"
@@ -72,10 +110,11 @@ const contactCount = columns.reduce((total, column) => total + column.contacts.l
             <p class="board-owner"><UIcon name="i-lucide-user-round" aria-hidden="true" /><span>Responsável: <strong>{{ contact.owner }}</strong></span></p>
           </li>
         </ul>
+        <p v-if="!column.contacts.length" class="board-empty">Nenhum contato nesta etapa corresponde à busca.</p>
       </section>
     </div>
 
-    <p class="board-note"><UIcon name="i-lucide-info" aria-hidden="true" />Contatos fictícios para demonstrar a organização do funil.</p>
+    <p class="board-search-result" role="status">{{ searchQuery.trim() ? `${resultCount} de ${contactCount} contatos encontrados.` : '' }}</p>
   </figure>
 </template>
 
@@ -98,8 +137,7 @@ const contactCount = columns.reduce((total, column) => total + column.contacts.l
 .board-column-heading,
 .board-contact-heading,
 .board-source,
-.board-owner,
-.board-note {
+.board-owner {
   display: flex;
   align-items: center;
 }
@@ -116,7 +154,15 @@ const contactCount = columns.reduce((total, column) => total + column.contacts.l
 .board-heading-icon :deep(svg), .board-heading-icon :deep(.iconify) { width: 20px; height: 20px; }
 .board-heading h3 { margin: 0; font-size: 18px; font-weight: 750; line-height: 1.3; letter-spacing: -.3px; }
 .board-heading-copy p { margin: 4px 0 0; color: #697269; font-size: 12px; line-height: 1.5; }
-.board-demo-label { padding: 6px 9px; border: 1px solid #ece7e1; border-radius: 6px; background: #faf8f5; color: #77604b; font-size: 12px; line-height: 1.4; }
+.board-search { margin-bottom: 20px; }
+.board-search > label { display: block; margin-bottom: 7px; color: #4a5748; font-size: 12px; font-weight: 650; line-height: 1.4; }
+.board-search-field { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 10px; border: 1px solid #dce2d7; border-radius: 9px; background: #f9faf7; color: #69785e; }
+.board-search-field:focus-within { outline: 2px solid #69785e; outline-offset: 2px; }
+.board-search-field > :deep(.iconify) { width: 16px; height: 16px; flex: 0 0 16px; }
+.board-search-field input { width: 100%; min-width: 0; min-height: 42px; border: 0; outline: none; background: transparent; color: #242c25; font: inherit; font-size: 13px; }
+.board-clear-search { min-height: 44px; flex: 0 0 auto; color: #4a5748; font-size: 12px; cursor: pointer; }
+.board-clear-search:focus-visible { outline: 2px solid #69785e; outline-offset: 2px; }
+.board-search > p { margin: 6px 0 0; color: #697269; font-size: 12px; line-height: 1.5; }
 .board-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .board-column { --board-accent: #c95a42; --board-tint: #fae9e2; min-width: 0; padding: 10px; border: 1px solid #e9ece6; border-radius: 12px; background: #f7f8f5; }
 .board-column-sage { --board-accent: #6c7e56; --board-tint: #e8eedf; }
@@ -132,14 +178,15 @@ const contactCount = columns.reduce((total, column) => total + column.contacts.l
 .board-contact-identity { min-width: 0; }
 .board-contact h5 { margin: 0; font-size: 13px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
 .board-source { gap: 4px; margin: 5px 0 0; color: #697269; font-size: 12px; line-height: 1.4; }
-.board-source :deep(svg), .board-source :deep(.iconify), .board-owner :deep(svg), .board-owner :deep(.iconify), .board-note :deep(svg), .board-note :deep(.iconify) { width: 13px; height: 13px; flex: 0 0 13px; }
+.board-source :deep(svg), .board-source :deep(.iconify), .board-owner :deep(svg), .board-owner :deep(.iconify) { width: 13px; height: 13px; flex: 0 0 13px; }
 .board-next-step { margin: 14px 0 12px; }
 .board-next-step > span { color: #697269; font-size: 12px; line-height: 1.5; }
 .board-next-step p { min-height: 36px; margin: 3px 0 0; font-size: 13px; font-weight: 500; line-height: 1.4; }
 .board-owner { flex-wrap: wrap; gap: 5px; margin: 0; padding-top: 10px; border-top: 1px solid #eff1eb; color: #697269; font-size: 12px; line-height: 1.5; }
 .board-owner strong { color: #4a5748; font-weight: 600; }
-.board-note { align-items: flex-start; gap: 6px; margin: 15px 0 0; color: #697269; font-size: 12px; line-height: 1.5; }
-.board-note :deep(svg), .board-note :deep(.iconify) { margin-top: 2px; }
+.board-empty { margin: 0; padding: 14px 2px; color: #697269; font-size: 12px; line-height: 1.6; }
+.board-search-result { margin: 15px 0 0; color: #697269; font-size: 12px; line-height: 1.5; }
+.board-search-result:empty { margin: 0; }
 
 @container (max-width: 560px) {
   .board-columns { grid-template-columns: 1fr; }

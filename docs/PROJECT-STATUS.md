@@ -1,6 +1,16 @@
 # Status do projeto — Fluxo de Clientes
 
-Atualizado em **2 de outubro de 2026**, horário de São Paulo. Fonte canônica da situação do produto, dos repositórios e da implantação. As PRs documentais dos repositórios complementares apontam para este documento, sem manter cópias concorrentes do status.
+Atualizado em **3 de outubro de 2026**, horário de São Paulo. Fonte canônica da situação do produto, dos repositórios e da implantação. As PRs documentais dos repositórios complementares apontam para este documento, sem manter cópias concorrentes do status.
+
+## Revisão da apresentação comercial — 3 de outubro de 2026
+
+Esta revisão remove da interface os rótulos de conteúdo ilustrativo e demonstrativo, inclusive descrições acessíveis. Os dados foram fornecidos pelo proprietário e preservados integralmente: séries do gráfico, indicadores, atividades, datas, seis contatos, responsáveis e seis canais. As caracterizações desses dados em registros históricos abaixo e em DASHBOARD-PREMIUM.md não descrevem a apresentação desta revisão.
+
+O gráfico permite consultar seus pontos existentes, o funil permite buscar nos contatos apresentados e o painel de canais destaca o caminho selecionado. O aviso do assistente mantém seu conteúdo e ganha um link funcional para o funil. Formulários, WhatsApp, APIs, banco, rotas comerciais e seus destinos permanecem inalterados.
+
+A busca global revisou os sete termos solicitados pelo proprietário. As ocorrências remanescentes em código são identificadores internos compatíveis, atributos de campos e a solicitação comercial de demonstração existente; documentação técnica, testes e arquivos do kit de marca não são conteúdo servido pelo site. Nenhum aviso equivalente foi inserido.
+
+Validação local: nove testes aprovados; compilação individual dos componentes Vue e comparação dos dados com a base 087a3b0 aprovadas; git diff --check sem erros. A inspeção visual no navegador foi interrompida a pedido do proprietário. Esta seção registra a implementação proposta; merge, CI remoto e publicação devem ser confirmados na PR correspondente. As evidências de implantação abaixo continuam vinculadas aos commits explicitamente indicados.
 
 ## Situação atual
 
