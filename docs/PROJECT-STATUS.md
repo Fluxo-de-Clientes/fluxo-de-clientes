@@ -37,7 +37,7 @@ A recuperação alterou a configuração pública do ambiente e refez o build da
 
 **Causa:** o projeto Netlify estava sem variáveis. nuxt.config.ts tinha fallback para a URL, mas não para a chave. O plugin SSR inicializa o cliente em todas as páginas, inclusive na landing. O módulo instalado apenas avisa durante o build quando falta a chave; por isso build e CI aprovados não garantiam uma página utilizável.
 
-**Correção realizada:** cadastrar NUXT_PUBLIC_SUPABASE_URL e NUXT_PUBLIC_SUPABASE_KEY para o projeto registrado, no contexto production, e reconstruir a main por `netlify deploy --trigger --prod --site 2ea03f45-ba43-41a6-84c7-41a7f117c980`. Os valores permanecem no provedor e não foram versionados.
+**Correção realizada:** cadastrar NUXT_PUBLIC_SUPABASE_URL e NUXT_PUBLIC_SUPABASE_KEY para o projeto registrado, no contexto production, e reconstruir a main por `netlify deploy --trigger --prod --site 2ea03f45-ba43-41a6-84c7-41a7f117c980`. As duas variáveis públicas também foram configuradas e confirmadas em deploy-preview para os próximos builds de revisão. Os valores permanecem no provedor e não foram versionados.
 
 O plano atual não aceitou a seleção granular de Builds/Functions: o conector informou sucesso, mas a leitura de confirmação permaneceu vazia. Com **All scopes**, as duas variáveis públicas foram persistidas e confirmadas por leitura. Uma tentativa de upload de fonte em ZIP falhou na interpretação de .nvmrc; o build diretamente do Git concluiu com o runtime correto. Nenhuma alteração de versão ou dependência foi necessária.
 
@@ -57,13 +57,13 @@ O plano atual não aceitou a seleção granular de Builds/Functions: o conector 
 | Repositório | Estado de implementação | Atualização documental |
 | --- | --- | --- |
 | [fluxo-de-clientes](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes) | Fonte atual do site Nuxt, APIs e migration inicial. | Esta PR atualiza status, inventário e prevenção do incidente. |
-| [fluxo-de-clientes-database](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database) | main contém README; ainda não é a fonte executável de migrations. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database/pull/1) com responsabilidades e referência à fonte atual. |
+| [fluxo-de-clientes-database](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database) | main contém README atualizado; ainda não é a fonte executável de migrations. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database/pull/1) mesclada em 248b9eb5895f9a0be5367efc1c7ef5fc1354fdfb, com responsabilidades e referência à fonte atual. |
 | [fluxo-de-clientes-workers](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-workers) | main contém README; sem serviço de filas/workers implementado. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-workers/pull/1). |
 | [fluxo-de-clientes-infra](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-infra) | main contém README; infraestrutura executável ainda não versionada. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-infra/pull/1) inclui procedimento de configuração, deploy e verificação do Netlify. |
 | [fluxo-de-clientes-docs](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs) | main contém somente README; índice de documentação em revisão. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs/pull/1) atualizado com fontes atuais e catálogo. |
 | [.github](https://github.com/Fluxo-de-Clientes/.github) | main contém somente README; catálogo e referências de governança em revisão. | [PR #1](https://github.com/Fluxo-de-Clientes/.github/pull/1) atualizado com fontes atuais e responsabilidades. |
 
-As cinco PRs complementares estão abertas para revisão. A regra do workspace exige merge humano; nenhuma foi mesclada automaticamente. A existência de repositório, domínio ou campo YAML não comprova serviço operacional.
+A PR documental do banco foi mesclada em 2 de outubro de 2026, às 22:06:07 de São Paulo. As quatro demais PRs complementares estão abertas na consulta realizada. A regra do workspace exige merge humano; nenhum merge foi executado pelo agente. A existência de repositório, domínio ou campo YAML não comprova serviço operacional.
 
 ## Código integrado e histórico
 
@@ -72,6 +72,7 @@ As cinco PRs complementares estão abertas para revisão. A regra do workspace e
 - O head da PR #6, 99f8f9ddc480e244e0180b075f074e702c50c0bf, teve [CI aprovado](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37081824001). Esse build não validava variáveis de produção nem banco real.
 - A correção histórica de Node 20 e a política de runtime estão em [BUILD-RUNTIME.md](BUILD-RUNTIME.md). Os [registros anteriores](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/blob/aef6f5932ed14d34fbbd7409fb109bbdf55f3b79/docs/PROJECT-STATUS.md) preservam as evidências dos PRs #3–#6 e a limitação local de empacotamento Nitro no Windows (EPERM readlink).
 - Nesta atualização, npm test aprovou **9 testes**: 3 de dados/geometria e 6 de verificação de ambiente. git diff --check aprovado. Esses testes não validam Auth, gravação de contatos ou RLS.
+- A prevenção foi aprovada no [CI 37086010205](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37086010205), commit e72a6002cc829e2c849117445a6884e2d7210375 da [PR #7](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/7). Para atualizações posteriores, consultar os checks do head correspondente.
 
 ## Próximas ações
 
