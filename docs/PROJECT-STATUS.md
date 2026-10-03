@@ -1,106 +1,92 @@
 # Status do projeto — Fluxo de Clientes
 
-Atualizado em **2 de outubro de 2026**. Este é o registro canônico do estado do produto e das mudanças que afetam sua entrega. A situação abaixo distingue código integrado, trabalho em revisão e implantação comprovada.
+Atualizado em **3 de outubro de 2026**, horário de São Paulo. Fonte canônica da situação do produto, dos repositórios e da implantação. As PRs documentais dos repositórios complementares apontam para este documento, sem manter cópias concorrentes do status.
 
-## Referências e escopo
+## Atualização desta ramificação
 
-- Repositório principal: [`Fluxo-de-Clientes/fluxo-de-clientes`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes).
-- Base inspecionada: `main`, commit [`7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52), com os PRs #3, #4 e #5 integrados. Evidências de validação e implantação anteriores permanecem vinculadas aos commits indicados em cada seção.
-- Trabalho em revisão: [PR #6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6), branch `feat/supabase-contact-workflows`, incorporando essa base após o head [`175466a`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/175466a6bbf44c2eba7be7eb2dcd81480e8cfcff). Os resultados locais desta resolução estão registrados abaixo; isso não representa integração do PR à `main` nem implantação.
-- Governança: [GITHUB-GOVERNANCE.md](GITHUB-GOVERNANCE.md).
-- Diagnóstico, correção e prevenção do erro de build: [BUILD-RUNTIME.md](BUILD-RUNTIME.md).
+Em 3 de outubro de 2026, a ramificação `feat/integration-panel-refinement` incorporou a `main` até o commit `c163864f7bc91037e2f8bce2159f6008a0edf932`. A integração preserva o refinamento desta ramificação que direciona visualmente os sinais de cada canal ao fluxo central e incorpora, entre outras mudanças, a correção de leitura de contatos que exige vínculo atual com a organização. Nesta combinação, `git diff --check`, `npm test` (9 testes) e `npm run build` foram aprovados com Node.js 22.23.1 e npm 10.9.8. A publicação deste novo commit permanece a etapa seguinte; as evidências de implantação abaixo continuam restritas aos commits nelas identificados.
 
-Os repositórios de documentação e de governança da organização devem apontar para este arquivo. Registros técnicos de funcionalidades complementam este status, sem substituí-lo nem criar uma segunda versão do estado geral.
+## Situação atual
 
-## Produto integrado à main
+O site comercial foi restabelecido após o erro 500 causado pela ausência da chave pública do Supabase no Netlify. O deploy funcional verificado usa a main no commit [ed5cdb0a1c6d68ef8fccde277ee097c5bf88a5ae](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/ed5cdb0a1c6d68ef8fccde277ee097c5bf88a5ae), que integrou a prevenção da [PR #7](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/7) sobre o painel e a marca da PR #6. As atualizações dos cinco repositórios complementares também foram mescladas.
 
 | Área | Estado verificado | Limite |
 | --- | --- | --- |
-| Aplicação | Protótipo em Nuxt 4, Vue 3, TypeScript e Nuxt UI. | Não representa um SaaS operacional completo. |
-| Página inicial | Landing, dependência `motion-v` e componentes de dashboard, funil e fluxo animado integrados pelos PRs #3 e #4; `npm test` disponível. | Métricas e exemplos da interface não comprovam dados comerciais reais. A integração não comprova implantação. |
-| Atendimento | Conversas locais usando `useVisualChats()` e rotas `/chat/:id`. | Estado temporário de sessão, sem backend, banco ou persistência. |
-| Autenticação e canais reais | Não implementados como serviços operacionais no protótipo inspecionado. | A navegação para uma conversa demonstrativa não comprova login, integração ou captação real. |
-| Build no GitHub Actions | Correção histórica do runtime para Node.js 22 já integrada e validada; prevenção com `.nvmrc`, `engines` e `engine-strict` integrada pelo PR #5 em `7a90f4c`. | Cada resultado pertence ao commit e à execução registrados em [BUILD-RUNTIME.md](BUILD-RUNTIME.md). A integração não comprova runtime ou publicação em produção. |
+| Site comercial | [fluxodeclientes.com.br](https://fluxodeclientes.com.br) responde HTTP 200; landing, painel de integrações e marca presentes no HTML. | A verificação HTTP não substitui uma revisão visual completa. |
+| CTAs | “Explorar a plataforma” e “Levar meu fluxo para o app” apontam para https://app.fluxodeclientes.com.br. | Navegação não comprova integração de dados entre serviços. |
+| Entrada e demonstração | /entrar e /demonstracao respondem HTTP 200. | Login completo e envio de formulário não foram executados nesta validação. |
+| Aplicativo separado | https://app.fluxodeclientes.com.br termina em /login, HTTP 200, servidor Nginx. | Repositório de origem e operação interna ainda não identificados/verificados. |
+| Supabase | Projeto bkhuyaivdvxjqybcglyo ativo e saudável; configuração pública presente no Netlify em produção. | Nenhuma migration aplicada e nenhuma tabela em public na consulta realizada. |
+| Contatos e captação | Código integrado pela PR #6. | Dependem do schema revisado, configuração privada e validação funcional; ainda não comprovados como operacionais. |
+| Conversas e canais | Conversas transitórias em sessão; painel ilustrativo com pulsos intermitentes via motion-v. | Os canais exibidos não representam conectores reais ativos. |
 
-Esta tabela descreve a `main` em `7a90f4c`. O PR #6 propõe autenticação, captação de demonstrações e gestão de contatos com Supabase, mantendo as conversas demonstrativas transitórias; essas funcionalidades continuam em revisão. As convenções da branch atual estão em [AGENTS.md](../AGENTS.md). Campos de produção nos arquivos YAML descrevem identificação e arquitetura de referência; não comprovam que serviços ou domínios estejam implantados.
+## Implantação confirmada
 
-## Incidente de build e prevenção
-
-**Sintoma:** `TypeError: trustedFunctions.difference is not a function` durante `nuxt build` no GitHub Actions.
-
-**Causa identificada:** execução com Node.js 20, sem a API de conjuntos exigida pelo código executado no build. O problema foi relacionado ao runtime; não foi necessário atualizar as dependências da aplicação para corrigi-lo.
-
-| Mudança | Estado | Evidência / próxima etapa |
-| --- | --- | --- |
-| Alteração histórica do CI de Node.js 20 para Node.js 22, commit [`65f2ecb4`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/65f2ecb4d333a9da79d9446b27e5092aed71f2c1) | Integrada; build posterior aprovado. | [Falha antiga](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37031519464/job/110919246247) e [CI aprovado da main em 85856008](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37045837461). |
-| Prevenção na branch `fix/node-runtime-governance` | [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) integrado à `main` no merge [`7a90f4c`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52). Implantação em produção ainda não confirmada neste registro. | Node.js `22.23.1` em `.nvmrc`, `engines.node: ^22.23.1`, `engine-strict=true` em `.npmrc` e CI lendo `node-version-file`. Evidência histórica de CI e prévia em `7dfda52c`: [execução 37065889111](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37065889111); esse resultado não valida commits posteriores. |
-| Dependências de aplicação | Preservadas nesta prevenção. | Nenhuma atualização de Nuxt UI, Nuxt, Vue ou demais bibliotecas é apresentada como necessária à correção do runtime. |
-| Documentação de diagnóstico, status e governança | Integrada neste repositório pelo PR #5; situação atual dos PRs de comunicação não verificada nesta atualização. | Referências na organização em [.github#1](https://github.com/Fluxo-de-Clientes/.github/pull/1) e na documentação em [fluxo-de-clientes-docs#1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs/pull/1). Atualizar o estado após integração e implantação comprovadas. |
-
-O build aprovado de um commit anterior não substitui a validação da nova combinação de alterações do PR #6. A família Node.js 22 foi selecionada para padronizar o ambiente testado; isso não significa que Node.js 24 seja intrinsecamente incompatível. Uma versão selecionada no painel do provedor também não comprova a versão efetivamente utilizada em um deploy; verificar os logs da execução correspondente.
-
-### Validação histórica da prevenção
-
-- Ambiente local: Windows, Node.js `22.23.1`, npm `10.9.8`, cópia isolada da base `85856008` com as alterações de prevenção do PR #5.
-- `npm ci --no-audit --no-fund`: aprovado, com cache novo; nenhuma versão de dependência foi alterada no lockfile. A opção de auditoria não foi executada nessa instalação.
-- `Set.prototype.difference`: disponível. Configuração npm `engine-strict`: ativa.
-- `npm run build`: compilação de cliente e servidor concluída, mas empacotamento Nitro bloqueado por `EPERM` ao executar `readlink` em `C:\Users\User`, no ambiente local restrito. O build local completo **não** foi aprovado.
-- Revisão do diff e `git diff --check`: sem problemas materiais. Permanecem avisos de depreciação e de tempo de plugins; não foram tratados como causa do erro histórico.
-- CI da prevenção: **aprovado** no commit [`7dfda52c82a6a863e0c6d9ebb0168cbcda4239f7`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7dfda52c82a6a863e0c6d9ebb0168cbcda4239f7), [execução 37065889111](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37065889111/job/111033455949). O log confirma Node `22.23.1`, npm `10.9.8`, instalação e build completos. O bloqueio local não foi contornado alterando código ou desativando a validação de runtime.
-- Prévia Netlify associada a `7dfda52c`: status `netlify/fluxodeclientes/deploy-preview` aprovado, com [Deploy Preview #5](https://deploy-preview-5--fluxodeclientes.netlify.app) pronto. Isso valida a entrega em prévia, não a atualização da produção. O patch do runtime dessa prévia não foi obtido nos logs do provedor.
-- Este registro documenta o commit verificado. Para commits posteriores, inclusive atualizações desta documentação, consulte os checks do [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5/checks).
-
-### Validação da resolução de conflitos do PR #6
-
-- Base da combinação: head `175466a` e `main` em `7a90f4c`, em cópia de trabalho isolada, no Windows com Node.js `22.23.1` e npm `10.9.8`.
-- `npm ci --no-audit --no-fund`, com cache novo: aprovado, incluindo `nuxt prepare`. A auditoria de dependências não foi executada nessa instalação.
-- `npm test`: aprovado, 3 testes de dados e geometria do gráfico, sem falhas.
-- Consistência de runtime e dependências: aprovada. `package.json` e `package-lock.json` preservam todos os scripts e dependências de `175466a`; a única mudança semântica nesses arquivos é `engines.node: ^22.23.1`. `.nvmrc` e `.npmrc` mantêm a política do PR #5.
-- Revisão dos arquivos resolvidos e `git diff --check`: aprovados, sem marcadores de conflito. Código da aplicação, APIs e migrations permanecem iguais a `175466a`.
-- `npm run build`: cliente e servidor compilados; empacotamento Nitro interrompido por `EPERM` ao executar `readlink` em `C:\Users\User`, a mesma limitação do ambiente Windows restrito registrada na validação histórica. O build local completo não foi aprovado; nenhuma configuração da aplicação foi alterada para contornar essa restrição.
-- Consulte os [checks do PR #6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6/checks) para o CI e a prévia do commit correspondente. Resultados anteriores não validam uma atualização posterior.
-
-Esta validação não exercita autenticação, escrita de contatos ou políticas RLS contra o Supabase. Nenhuma migration foi aplicada durante a resolução de conflitos.
-
-### Painel de canais e integrações em revisão
-
-- A landing do PR #6 passa a incluir uma seção demonstrativa de canais e integrações entre as soluções e o funil. Ela apresenta WhatsApp Business, Google, LinkedIn, Mercado Livre, Nuvemshop e WooCommerce como possibilidades de composição da operação, usa a marca Fluxo de Clientes no hub central e oferece continuidade para `https://app.fluxodeclientes.com.br` pelos CTAs “Levar meu fluxo para o app” e “Explorar a plataforma”; não afirma que os serviços estejam ativos ou configurados.
-- O painel usa `motion-v` para transmitir pulsos luminosos intermitentes pelas rotas entre os canais e o hub central. A animação respeita `prefers-reduced-motion` e troca para uma organização estática em telas compactas.
-- Nesta alteração, `npm ci --no-audit --no-fund`, `npm test` (3 testes) e `git diff --check` foram aprovados. O servidor de desenvolvimento respondeu `200` para a landing com configuração local não produtiva. O cliente e o servidor de `npm run build` compilaram, mas o empacotamento Nitro voltou a ser interrompido pelo `EPERM` de `readlink` em `C:\\Users\\User` do ambiente Windows restrito; consulte os checks do commit atualizado do PR para a validação completa.
-- O commit [`09bb423`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/09bb423cb8157492ffb85e89d9b7701a23f40e20) foi aprovado no [CI 37080263106](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37080263106) e na [Deploy Preview #6](https://deploy-preview-6--fluxodeclientes.netlify.app). Essas evidências validam o commit e a prévia, não uma implantação em produção.
-
-## Última implantação confirmada neste registro
-
-| Item | Evidência observada |
+| Item | Evidência |
 | --- | --- |
-| Provedor | Netlify. |
-| Site | [fluxodeclientes.com.br](https://fluxodeclientes.com.br). |
-| Deploy publicado | `6ac003151eb2525fa8185e5f`, estado `ready`. |
-| Código associado | `main`, commit `85856008c58062b3dc6d18ede3ae7e61378ad52e`. |
-| Data do deploy | 2 de outubro de 2026, às 16:17:14, horário de São Paulo (`2026-10-02T19:17:14Z`). |
-| Runtime efetivo desse deploy | Não obtido na consulta realizada; não inferido a partir da seleção de Node.js 24.x mostrada no painel. |
-| Novo pin de runtime | A configuração integrada pelo PR #5 ainda não tem implantação confirmada neste registro. |
+| Projeto Netlify | [fluxodeclientes](https://app.netlify.com/projects/fluxodeclientes), ID 2ea03f45-ba43-41a6-84c7-41a7f117c980. |
+| Deploy funcional verificado | [6ac05d3fb48eac00085e0214](https://app.netlify.com/projects/fluxodeclientes/deploys/6ac05d3fb48eac00085e0214), ready, contexto production. |
+| Código | main, commit ed5cdb0a1c6d68ef8fccde277ee097c5bf88a5ae, confirmado pelo provedor. |
+| Publicação | **2 de outubro de 2026, às 22:42:05**, São Paulo (2026-10-03T01:42:05.589Z). |
+| Runtime do build | Log confirma Node.js **22.23.1**, npm **10.9.8**, execução do prebuild/check-deploy-env, build Nuxt e publicação concluídos. |
+| CI da main | [37087047018](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37087047018), concluído com sucesso para ed5cdb0. |
+| Verificação externa | HTTP 200 em /, /entrar, /demonstracao, /brand/simbolo-original.svg e no login do aplicativo externo. |
+| Conteúdo | Marca oficial, painel de integrações e dois links para o aplicativo presentes; erro de inicialização Supabase ausente. |
 
-Os dados acima vieram da consulta ao provedor. Eles confirmam a publicação daquele commit; não confirmam serviços externos, todos os fluxos do produto ou a implantação de alterações posteriores.
+A recuperação inicial foi publicada no deploy [6ac054636c298e1572a7da39](https://app.netlify.com/projects/fluxodeclientes/deploys/6ac054636c298e1572a7da39), commit aef6f59, às 22:04:14. A publicação das 22:42 acima acrescenta a prevenção de build e o inventário atualizado. As evidências de execução aqui se referem ao commit indicado, sem atribuí-las a commits futuros. O ajuste do ícone da aba descrito abaixo é posterior a essa publicação de referência; sua implantação deve ser conferida no deploy da PR correspondente.
 
-## Situação dos PRs
+## Encerramento da marca e da documentação
 
-| PR | Escopo | Situação observada |
+A conferência final identificou que public/favicon.ico ainda continha o símbolo padrão do Nuxt. Esta revisão o substitui pelo símbolo oficial laranja, convertido diretamente do SVG existente, e declara em app/app.vue o favicon SVG com fallback ICO de 32 px. O fallback usa URL versionada para renovar o cache do ícone. A imagem gerada foi inspecionada visualmente; o ajuste não altera o layout da página. A validação de publicação deve confirmar os dois links no head e o conteúdo dos arquivos servidos.
+
+Os registros de status, build e governança foram reconciliados com os merges. Os índices complementares receberam a [PR #2 de documentação](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs/pull/2), mesclada em 3b1dda5782d5245b060094774bd19d1d3d7ad616, e a [PR #2 da organização](https://github.com/Fluxo-de-Clientes/.github/pull/2), mesclada em 4421e22f48402fd86dc8f446cd63971172c7c899, para apontar ao procedimento Netlify já disponível na main.
+
+## Incidente: cliente Supabase sem chave
+
+**Sintoma:** depois do merge da PR #6, o site respondia HTTP 500 com a mensagem de URL/chave exigidas para criar o cliente Supabase. O deploy [6ac04ee10593fa6ebf8f361e](https://app.netlify.com/projects/fluxodeclientes/deploys/6ac04ee10593fa6ebf8f361e) estava ready, mas o Lighthouse e uma requisição externa confirmaram a falha.
+
+**Causa:** o projeto Netlify estava sem variáveis. nuxt.config.ts tinha fallback para a URL, mas não para a chave. O plugin SSR inicializa o cliente em todas as páginas, inclusive na landing. O módulo instalado apenas avisa durante o build quando falta a chave; por isso build e CI aprovados não garantiam uma página utilizável.
+
+**Correção realizada:** cadastrar NUXT_PUBLIC_SUPABASE_URL e NUXT_PUBLIC_SUPABASE_KEY para o projeto registrado, no contexto production, e reconstruir a main por `netlify deploy --trigger --prod --site 2ea03f45-ba43-41a6-84c7-41a7f117c980`. As duas variáveis públicas também foram configuradas e confirmadas em deploy-preview para os próximos builds de revisão. Os valores permanecem no provedor e não foram versionados.
+
+O plano atual não aceitou a seleção granular de Builds/Functions: o conector informou sucesso, mas a leitura de confirmação permaneceu vazia. Com **All scopes**, as duas variáveis públicas foram persistidas e confirmadas por leitura. Uma tentativa de upload de fonte em ZIP falhou na interpretação de .nvmrc; o build diretamente do Git concluiu com o runtime correto. Nenhuma alteração de versão ou dependência foi necessária.
+
+**Prevenção integrada e publicada pela PR #7:** [scripts/check-deploy-env.mjs](../scripts/check-deploy-env.mjs), executado pelo prebuild, interrompe builds Netlify de produção quando falta qualquer uma das duas variáveis públicas. O erro lista somente os nomes. CI, desenvolvimento local e previews podem compilar sem credenciais; isso não comprova disponibilidade operacional dessas prévias. Após cada deploy, verificar HTTP e conteúdo real das rotas públicas.
+
+## Supabase: implantação pendente
+
+- Projeto [bkhuyaivdvxjqybcglyo](https://supabase.com/dashboard/project/bkhuyaivdvxjqybcglyo), organização quadrilha_calango, São Paulo, PostgreSQL 17.11. Identificação em [SUPABASE.md](SUPABASE.md) e [INTEGRATIONS.yaml](../INTEGRATIONS.yaml).
+- Consulta somente de leitura retornou **nenhuma migration aplicada e nenhuma tabela em public**. Nenhum registro de usuário foi consultado e nenhum SQL de alteração foi executado nesta atualização.
+- A [migration inicial](../supabase/migrations/20261002190000_initial_product_schema.sql) continua no repositório principal. Não foi duplicada nem transferida.
+- A revisão confirmou uma falha na política “Members can view permitted contacts”: os ramos de responsável/criador não exigem vínculo atual com a organização. Remover um membro não limpa esses campos, que referenciam auth.users. Antes da aplicação, exigir has_org_role para agent nesse ramo, preservando a leitura ampla de admin/manager/analyst. A correção deve ser validada em PostgreSQL/Supabase descartável com agente vinculado, ex-membro, membro de outra organização e anônimo; a inspeção de código não substitui testes reais de RLS. O schema continua sem aplicação no projeto verificado.
+- O registro de demonstrações exige NUXT_SUPABASE_SECRET_KEY somente no servidor e a tabela demo_requests. Essa chave não foi configurada nesta recuperação.
+- Contatos e empresas requerem schema, RLS e testes de autorização. Retornos Auth, recuperação de senha e NUXT_PUBLIC_APP_URL precisam ser validados para a origem efetiva dessas rotas.
+
+## Organização e responsabilidades
+
+| Repositório | Estado de implementação | Atualização documental |
 | --- | --- | --- |
-| [#3 — Add Motion for Vue dependency](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/3) | Dependência direta `motion-v`; branch `feat/landing-reference-v2`, head `49d5cabebc067b28d05e5e4b5abe93cdb44d9a64`. | Integrado à `main` no merge `a1fa5f6`. |
-| [#4 — Refina dashboard, funil e fluxo animado da landing](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/4) | Componentes demonstrativos, dados coerentes, animações, testes e registro técnico; branch `feat/dashboard-premium-customer-flow`, head `063013fa41fed003adb349744c2d305c7b73a9dd`. | Integrado à `main` no merge `80e6f59`. Os resultados de QA pertencem ao trabalho desse PR. |
-| [#5 — Padroniza Node e estabelece status e diagnóstico de build](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) | Runtime, prevenção, status, governança e agente BUILD ERROR RESEARCH. | Integrado à `main` no merge `7a90f4c`. CI e prévia históricos aprovados em `7dfda52c`; implantação do novo runtime em produção não confirmada neste registro. |
-| [#6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6) | Autenticação e fluxos de contatos com Supabase; branch `feat/supabase-contact-workflows`. | Aberto, em revisão, com resolução dos conflitos ao incorporar a `main` em `7a90f4c` após o head `175466a`. Resultados locais registrados acima; conferir os checks do commit atual. Não integrado à `main`; implantação e aplicação da migration não confirmadas nesta atualização. |
+| [fluxo-de-clientes](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes) | Fonte atual do site Nuxt, APIs e migration inicial. | [PR #7](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/7) mesclada em ed5cdb0a1c6d68ef8fccde277ee097c5bf88a5ae; prevenção e inventário publicados. |
+| [fluxo-de-clientes-database](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database) | main contém README atualizado; ainda não é a fonte executável de migrations. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database/pull/1) mesclada em 248b9eb5895f9a0be5367efc1c7ef5fc1354fdfb, com responsabilidades e referência à fonte atual. |
+| [fluxo-de-clientes-workers](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-workers) | main contém README atualizado; sem serviço de filas/workers implementado. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-workers/pull/1) mesclada em 942e2204d9f19c5f398e9e6498f40eec1c84f030. |
+| [fluxo-de-clientes-infra](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-infra) | main contém README e procedimento de configuração, deploy e verificação do Netlify; infraestrutura executável ainda não versionada. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-infra/pull/1) mesclada em acfeac7fcd2dbeb91423b89925835b23470f15a2. |
+| [fluxo-de-clientes-docs](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs) | Índice de documentação e catálogo atualizados na main. | [PR #1](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs/pull/1) mesclada em 2daa7752c8ad5b2bb826f49d1176983309d0b101. |
+| [.github](https://github.com/Fluxo-de-Clientes/.github) | Catálogo e referências de governança atualizados na main. | [PR #1](https://github.com/Fluxo-de-Clientes/.github/pull/1) mesclada em b702f3a013ccf9203dd3068fc473f3fa2d3980c0. |
 
-O [registro DASHBOARD-PREMIUM.md](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/blob/063013fa41fed003adb349744c2d305c7b73a9dd/docs/DASHBOARD-PREMIUM.md) documenta o PR #4. Sua integração e a disponibilidade de `npm test` na `main` em `80e6f59` não comprovam novos resultados de validação nem publicação em produção.
+A PR documental do banco foi mesclada em 2 de outubro de 2026, às 22:06:07 de São Paulo. Após autorização do usuário para concluir, o agente mesclou a PR #7 e as quatro PRs complementares restantes, conferindo os heads exatos e a ausência de conflitos. O principal tinha CI e Deploy Preview aprovados; os repositórios exclusivamente documentais não possuem pipelines de teste. A autorização desta sessão não altera a regra geral de revisão/merge humano. A existência de repositório, domínio ou campo YAML não comprova serviço operacional.
+
+## Código integrado e histórico
+
+- PRs principais [#3](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/3), [#4](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/4), [#5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) e [#6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6) integradas à main.
+- A PR #6 foi mesclada em **2 de outubro de 2026, às 21:31:10**, São Paulo (2026-10-03T00:31:10Z). Inclui código Supabase, painel de canais, símbolo oficial e CTAs externos.
+- O head da PR #6, 99f8f9ddc480e244e0180b075f074e702c50c0bf, teve [CI aprovado](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37081824001). Esse build não validava variáveis de produção nem banco real.
+- A correção histórica de Node 20 e a política de runtime estão em [BUILD-RUNTIME.md](BUILD-RUNTIME.md). Os [registros anteriores](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/blob/aef6f5932ed14d34fbbd7409fb109bbdf55f3b79/docs/PROJECT-STATUS.md) preservam as evidências dos PRs #3–#6 e a limitação local de empacotamento Nitro no Windows (EPERM readlink).
+- Nesta atualização, npm test aprovou **9 testes**: 3 de dados/geometria e 6 de verificação de ambiente. git diff --check aprovado. Esses testes não validam Auth, gravação de contatos ou RLS.
+- O head final da PR #7, 91f492e8a69f648ff56cab4a10da23ec76cbe67b, teve [CI aprovado](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37086284774) e Deploy Preview aprovado. Após o merge, o [CI da main](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/actions/runs/37087047018), o log do Netlify e os testes HTTP confirmaram a publicação da prevenção.
 
 ## Próximas ações
 
-1. Conferir os checks do commit atual do [PR #6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6) e concluir a revisão da integração com Supabase após a resolução de conflitos com a `main` em `7a90f4c`.
-2. Confirmar o commit publicado e o runtime nos logs do deploy Netlify que contenha a prevenção integrada pelo PR #5.
-3. Verificar a situação dos PRs relacionados de governança e documentação e manter suas referências ao status canônico.
-4. Revisar a integração funcional do PR #6 e registrar separadamente código integrado, configuração do ambiente, aplicação autorizada da migration e implantação comprovada. Manter os limites das conversas demonstrativas explícitos.
-
-## Como manter este documento
-
-Atualize este arquivo no mesmo PR de mudanças relevantes no produto, build, dependências, infraestrutura ou condições de entrega. Cada atualização deve identificar a data, o repositório, a referência de código, o ambiente, a evidência, as limitações e o próximo passo. Preserve a distinção entre **proposto**, **em desenvolvimento**, **em revisão**, **integrado à main** e **implantado**. Resultados de testes e implantação só se aplicam à referência efetivamente verificada.
+1. Corrigir e testar a política de leitura de contatos antes de qualquer aplicação da migration; definir a transferência futura para o repositório de banco com fonte única e histórico preservado.
+2. Configurar e validar demonstração, Auth e contatos em ambiente de teste antes de declará-los disponíveis em produção.
+3. Identificar o repositório/processo de implantação de app.fluxodeclientes.com.br e registrar evidência no inventário.
+4. Nas próximas alterações materiais, atualizar este documento com commit, runtime, HTTP e limites da validação. Não usar apenas ready como teste de funcionamento.

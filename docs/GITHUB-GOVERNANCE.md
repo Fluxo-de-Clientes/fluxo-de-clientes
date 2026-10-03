@@ -56,6 +56,10 @@ Esta tabela define os papéis e destinos previstos para os repositórios. Ela n�
 
 O [status canônico do projeto](PROJECT-STATUS.md) registra a infraestrutura observada, os commits e as evidências. Placeholders de `INFRASTRUCTURE.yaml`, URLs em `PROJECT.yaml` e valores de propriedades recomendadas não devem ser apresentados como implantação confirmada. Esta documentação também não comprova que as propriedades e proteções sugeridas abaixo já estejam configuradas no GitHub.
 
+Na verificação de 2 de outubro de 2026, o site principal está no Netlify e o aplicativo em `app.fluxodeclientes.com.br` apresenta login servido por Nginx, em hospedagem separada. A origem de código desse aplicativo ainda não foi identificada. Banco e workers têm documentação de responsabilidades na main; infraestrutura também contém o [procedimento de operação do Netlify](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-infra/blob/main/docs/NETLIFY-OPERATIONS.md). Esses documentos não comprovam implementação de novos serviços. A migration inicial ainda pertence ao repositório principal, até uma transferência revisada com fonte única e histórico preservado.
+
+Os índices integrados à main de `fluxo-de-clientes-docs` e `.github` apontam para a documentação da main do principal. Os PRs principais #5, #6 e #7 já foram mesclados. O estado das atualizações de cada componente está no status canônico; a regra geral do workspace reserva o merge final à revisão humana. A autorização do usuário para os merges desta sessão está registrada no status e não altera essa regra geral.
+
 ## 3. Regras de proteção de branch
 
 Acesse:

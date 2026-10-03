@@ -1,6 +1,6 @@
 # Build: diagnóstico e política de Node.js
 
-Registro do incidente investigado em **02/10/2026**. Consulte o [status do projeto](PROJECT-STATUS.md) para distinguir a correção histórica, a prevenção integrada pelo PR #5 e a versão publicada.
+Registro dos incidentes investigados em **02/10/2026**. A produção foi recuperada no deploy `6ac054636c298e1572a7da39`, com Node 22.23.1 e npm 10.9.8 confirmados no log. Consulte o [status do projeto](PROJECT-STATUS.md) para a versão publicada, os testes HTTP e os limites funcionais.
 
 ## O que falhou e por quê
 
@@ -33,7 +33,7 @@ A execução antiga permanece vermelha como histórico. Ela não indica que a ve
 
 ## Prevenção integrada pelo PR #5
 
-O [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) foi integrado à `main` no merge [`7a90f4c`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52). O PR #6 incorpora essa política ao resolver os conflitos com essa base; os resultados locais desta resolução estão no [status do projeto](PROJECT-STATUS.md), e os resultados do CI pertencem ao commit indicado em cada execução.
+O [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) foi integrado à `main` no merge [`7a90f4c`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52). O [PR #6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6) preservou essa política na resolução dos conflitos e foi integrado no commit [`aef6f59`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/aef6f5932ed14d34fbbd7409fb109bbdf55f3b79). O [status do projeto](PROJECT-STATUS.md) reúne as evidências atuais e as referências históricas; os resultados do CI pertencem ao commit indicado em cada execução.
 
 | Arquivo | Regra |
 | --- | --- |
@@ -49,13 +49,23 @@ O pin precisa de manutenção: ao atualizar Node, ajuste `.nvmrc`, revise `engin
 
 ## Relação com o Netlify
 
-O projeto confirmado é [fluxodeclientes](https://app.netlify.com/projects/fluxodeclientes), conectado à `main`, com domínio [fluxodeclientes.com.br](https://fluxodeclientes.com.br). O deploy `6ac003151eb2525fa8185e5f` estava publicado, com estado `ready`, no commit `85856008c58062b3dc6d18ede3ae7e61378ad52e`, em 02/10/2026 às 16:17:14 de São Paulo.
-
-A imagem enviada pelo usuário mostra Node **24.x** selecionado no painel, mas não comprova o patch efetivamente usado nem se a seleção foi salva. O runtime desse deploy não foi obtido na consulta de metadados.
+O projeto confirmado é [fluxodeclientes](https://app.netlify.com/projects/fluxodeclientes), conectado à `main`, com domínio [fluxodeclientes.com.br](https://fluxodeclientes.com.br). O [deploy `6ac054636c298e1572a7da39`](https://app.netlify.com/projects/fluxodeclientes/deploys/6ac054636c298e1572a7da39) publicou o commit `aef6f5932ed14d34fbbd7409fb109bbdf55f3b79` em 02/10/2026 às 22:04:14 de São Paulo. O log confirma Node **22.23.1**, npm **10.9.8** e build completo; a função usa `nodejs22.x`.
 
 Na [configuração de dependências do Netlify](https://docs.netlify.com/build/configure-builds/manage-dependencies/), arquivos de versão no diretório-base prevalecem sobre a seleção do painel. A [precedência documentada](https://docs.netlify.com/build/configure-builds/available-software-at-build-time/) é `.nvmrc`, `.node-version`, `NODE_VERSION` e, por último, painel. Neste projeto, `.nvmrc` fica junto de `package.json`, na raiz.
 
-Assim, o novo pin será usado somente em builds que incluam a prevenção integrada pelo PR #5, com a raiz como diretório-base. A integração à `main` não comprova uma nova publicação de produção. Confira no novo log Node 22.23.1, o commit implantado, o resultado do build e o estado publicado. Um CI aprovado não substitui essa verificação.
+O pin do PR #5 está integrado e foi utilizado nesse deploy. Para cada nova publicação, confira novamente runtime, commit, build e resposta HTTP real. Um CI aprovado não substitui essa verificação.
+
+## Incidente de configuração Supabase
+
+O build da PR #6 passou, mas a produção respondeu HTTP 500 porque `NUXT_PUBLIC_SUPABASE_KEY` não estava configurada no Netlify. O plugin SSR cria o cliente antes de renderizar qualquer página, e o módulo instalado apenas avisa durante o build sobre a chave ausente.
+
+A recuperação configurou `NUXT_PUBLIC_SUPABASE_URL` e `NUXT_PUBLIC_SUPABASE_KEY` em Production e refez o build da mesma main pelo Git vinculado. As duas variáveis públicas usam All scopes, pois o plano atual não aceitou escopos granulares. A leitura de confirmação do provedor deve mostrar as variáveis; a mensagem de sucesso de uma ferramenta, isoladamente, não comprova persistência.
+
+Uma tentativa de upload local em ZIP falhou na leitura da versão de `.nvmrc`; repetir o build diretamente do Git eliminou esse problema de transporte sem alterar o runtime versionado. Para o site já vinculado, usar `netlify deploy --trigger --prod --site 2ea03f45-ba43-41a6-84c7-41a7f117c980` e verificar o deploy criado.
+
+A prevenção foi integrada à `main` pela [PR #7](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/7), no commit [`ed5cdb0`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/ed5cdb0a1c6d68ef8fccde277ee097c5bf88a5ae). O hook `prebuild` executa [check-deploy-env.mjs](../scripts/check-deploy-env.mjs) e falha em Netlify/Production se URL ou chave pública estiverem vazias, sem imprimir valores. Builds de CI/local/preview não são bloqueados por essa verificação; a disponibilidade dessas páginas depende de sua própria configuração e de teste HTTP. A recuperação histórica descrita acima usou `aef6f59`, antes dessa prevenção; a publicação de commits posteriores deve ser confirmada no [status do projeto](PROJECT-STATUS.md).
+
+Após publicar, verificar `/`, `/entrar`, `/demonstracao`, a marca e os links para o aplicativo. HTTP 200 na página de formulário não comprova gravação de pedidos, assim como HTTP 200 em `/login` não comprova autenticação completa. O estado do schema e as configurações pendentes estão no [status](PROJECT-STATUS.md).
 
 ## Como validar uma mudança de runtime
 
@@ -72,7 +82,7 @@ npm run build
 
 A consulta do método deve retornar `function`. Use uma cópia limpa ou o ambiente de CI para confirmar que o build não depende de arquivos locais. Preserve as dependências travadas, confira os avisos e o código de saída e associe cada resultado ao commit validado. Um bloqueio de rede ou falta de credenciais deve ser relatado como limitação de ambiente, não como falha do código.
 
-O script `npm test` valida os dados e a geometria do gráfico com o executor de testes do Node.js; sua aprovação não valida os fluxos de autenticação, contatos ou políticas do banco. Leia [`package.json`](../package.json) antes de executar verificações adicionais: nesta base não há scripts `lint` ou `typecheck`. Valide o comportamento afetado e registre exatamente o que foi executado, sem inventar aprovação de testes.
+O script `npm test` valida dados/geometria do gráfico e a prevenção de build sem ambiente, com o executor de testes do Node.js; sua aprovação não valida autenticação, contatos ou políticas do banco. Leia [`package.json`](../package.json) antes de executar verificações adicionais: nesta base não há scripts `lint` ou `typecheck`. Registre exatamente o que foi executado.
 
 ## Comunicação para o projeto
 
