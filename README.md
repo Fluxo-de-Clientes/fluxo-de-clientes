@@ -1,6 +1,6 @@
 # Fluxo de Clientes
 
-Aplicação Nuxt 4 para captação de demonstrações e gestão inicial de contatos, com Supabase Auth, Postgres e políticas de Row Level Security.
+Aplicação Nuxt 4 com código de captação de demonstrações e gestão inicial de contatos, integrado com Supabase Auth, Postgres e políticas de Row Level Security. Código integrado não equivale a serviço operacional: o schema ainda não foi aplicado ao projeto Supabase verificado em 2 de outubro de 2026.
 
 A página inicial apresenta um painel demonstrativo, um funil com contatos fictícios e um fluxo visual do contato à oportunidade. O projeto usa **Nuxt 4, Vue 3, TypeScript, Nuxt UI e GSAP**. As conversas da demonstração local ficam no estado da sessão.
 
@@ -21,7 +21,7 @@ Este registro contém somente identificação pública; a conexão da aplicaçã
 
 ## Preparar o ambiente
 
-Use **Node.js 22.23.1**, definido em [`.nvmrc`](.nvmrc), e npm. GitHub Actions e o próximo build do Netlify que incluir este arquivo usam a mesma versão. O campo `engines` aceita a família 22 a partir desse patch; `.npmrc` faz a instalação recusar versões fora da faixa.
+Use **Node.js 22.23.1**, definido em [`.nvmrc`](.nvmrc), e npm. GitHub Actions e Netlify usam esse arquivo como referência. O campo `engines` aceita a família 22 a partir desse patch; `.npmrc` faz a instalação recusar versões fora da faixa. Confirme a versão efetiva no log de cada build.
 
 Selecione essa versão no seu gerenciador de Node ou instale-a antes de configurar a aplicação. Os fluxos integrados dependem de um projeto Supabase configurado.
 
@@ -42,14 +42,14 @@ Selecione essa versão no seu gerenciador de Node ou instale-a antes de configur
    - `NUXT_SUPABASE_SECRET_KEY`: chave secreta Supabase, somente no servidor. Não use o prefixo `NUXT_PUBLIC_`.
    - `NUXT_PUBLIC_APP_URL`: origem da aplicação, usada nos links de recuperação de senha.
 
-3. Aplique a migration versionada ao projeto autorizado usando a Supabase CLI:
+3. Revise e teste a migration em ambiente de desenvolvimento. Após aprovação explícita para o projeto de destino, aplique-a usando a Supabase CLI:
 
    ```bash
    supabase link --project-ref bkhuyaivdvxjqybcglyo
    supabase db push
    ```
 
-   A migration cria a captação de demonstrações, empresas, membros, etapas, contatos, atividades e políticas RLS. Este repositório não executa nem publica migrations automaticamente.
+   A migration cria a captação de demonstrações, empresas, membros, etapas, contatos, atividades e políticas RLS. Este repositório não executa nem publica migrations automaticamente. Há revisão de autorização pendente para a política de leitura de contatos; consulte [SUPABASE.md](docs/SUPABASE.md) antes de qualquer aplicação.
 
 4. Configure no Supabase Auth as URLs de retorno `http://localhost:3000/auth/callback` e a URL de produção correspondente. Crie o primeiro usuário pelo fluxo administrativo do Supabase; após entrar, ele poderá configurar a empresa e será o administrador inicial.
 
@@ -65,7 +65,9 @@ O projeto mantém `package-lock.json`. Use `npm ci` para reproduzir as dependên
 
 O servidor de desenvolvimento usa `http://localhost:3000` por padrão. A instalação executa `nuxt prepare` pelo script `postinstall`.
 
-## Funcionalidades disponíveis
+## Funcionalidades implementadas no código
+
+O funcionamento de autenticação, gravação de pedidos e gestão de contatos depende da configuração e implantação descritas acima. Consulte o [status](docs/PROJECT-STATUS.md) para as verificações operacionais atuais.
 
 - Formulário de demonstração com validação no navegador e no servidor. A confirmação aparece somente depois que o pedido é registrado.
 - Login e recuperação de senha via Supabase Auth.
@@ -87,16 +89,22 @@ As migrations e políticas podem ser validadas em um projeto Supabase local ou e
 | Comando | Finalidade |
 | --- | --- |
 | `npm run dev` | Desenvolvimento em `http://localhost:3000`. |
-| `npm run build` | Build de produção. |
+| `npm run build` | Verificação prévia do ambiente Netlify/Production e build de produção. |
 | `npm run preview` | Prévia local do build de produção. |
 | `npm run generate` | Geração estática, quando exigida pelo destino de entrega. |
-| `npm test` | Validar os dados e a geometria do gráfico com o executor de testes do Node.js. |
+| `npm test` | Validar dados/geometria do gráfico e bloqueio de build Netlify sem configuração pública. |
 
 Não há scripts `lint` ou `typecheck` nesta base. Confira `package.json` antes de executar ou declarar essas validações.
 
 ## Hospedagem e atualizações
 
 O site confirmado está no [Netlify, projeto fluxodeclientes](https://app.netlify.com/projects/fluxodeclientes), com domínio [fluxodeclientes.com.br](https://fluxodeclientes.com.br). A versão efetivamente publicada e a data da última verificação ficam no status oficial.
+
+O aplicativo em [app.fluxodeclientes.com.br](https://app.fluxodeclientes.com.br) é um destino separado, com tela de login acessível e servidor Nginx. O repositório que entrega esse aplicativo ainda não foi identificado. Os CTAs da landing encaminham a pessoa para esse domínio.
+
+No Netlify, configure `NUXT_PUBLIC_SUPABASE_URL` e `NUXT_PUBLIC_SUPABASE_KEY` no contexto de produção, disponíveis para Builds e Functions. Se o plano não permitir escopos específicos, mantenha All scopes para essas variáveis públicas. Refazer o build é necessário quando elas estavam ausentes. `npm run build` executa uma verificação prévia dessas variáveis em produção no Netlify; essa verificação não substitui uma requisição HTTP real após a publicação.
+
+O código e a migration continuam neste repositório. As PRs documentais de [banco](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-database/pull/1), [workers](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-workers/pull/1), [infraestrutura](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-infra/pull/1), [documentação](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs/pull/1) e [governança](https://github.com/Fluxo-de-Clientes/.github/pull/1) registram responsabilidades e apontam para o mesmo status canônico; permanecem em revisão para merge humano.
 
 Uma alteração em `.nvmrc` só afeta novos builds que contenham o arquivo. Ela tem precedência sobre a seleção de Node no painel do Netlify. Não é necessário alterar o painel para duplicar essa configuração. Confira o runtime nos logs do novo deploy antes de declarar a atualização publicada.
 
