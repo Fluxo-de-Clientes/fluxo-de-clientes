@@ -29,7 +29,13 @@ O site comercial foi restabelecido após o erro 500 causado pela ausência da ch
 | Verificação externa | HTTP 200 em /, /entrar, /demonstracao, /brand/simbolo-original.svg e no login do aplicativo externo. |
 | Conteúdo | Marca oficial, painel de integrações e dois links para o aplicativo presentes; erro de inicialização Supabase ausente. |
 
-A recuperação inicial foi publicada no deploy [6ac054636c298e1572a7da39](https://app.netlify.com/projects/fluxodeclientes/deploys/6ac054636c298e1572a7da39), commit aef6f59, às 22:04:14. A publicação das 22:42 acima acrescenta a prevenção de build e o inventário atualizado. Este registro de encerramento altera somente documentação; para publicações documentais posteriores, consultar o histórico do Netlify. As evidências de execução aqui se referem ao commit indicado, sem atribuí-las a commits futuros.
+A recuperação inicial foi publicada no deploy [6ac054636c298e1572a7da39](https://app.netlify.com/projects/fluxodeclientes/deploys/6ac054636c298e1572a7da39), commit aef6f59, às 22:04:14. A publicação das 22:42 acima acrescenta a prevenção de build e o inventário atualizado. As evidências de execução aqui se referem ao commit indicado, sem atribuí-las a commits futuros. O ajuste do ícone da aba descrito abaixo é posterior a essa publicação de referência; sua implantação deve ser conferida no deploy da PR correspondente.
+
+## Encerramento da marca e da documentação
+
+A conferência final identificou que public/favicon.ico ainda continha o símbolo padrão do Nuxt. Esta revisão o substitui pelo símbolo oficial laranja, convertido diretamente do SVG existente, e declara em app/app.vue o favicon SVG com fallback ICO de 32 px. O fallback usa URL versionada para renovar o cache do ícone. A imagem gerada foi inspecionada visualmente; o ajuste não altera o layout da página. A validação de publicação deve confirmar os dois links no head e o conteúdo dos arquivos servidos.
+
+Os registros de status, build e governança foram reconciliados com os merges. Os índices complementares receberam a [PR #2 de documentação](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes-docs/pull/2), mesclada em 3b1dda5782d5245b060094774bd19d1d3d7ad616, e a [PR #2 da organização](https://github.com/Fluxo-de-Clientes/.github/pull/2), mesclada em 4421e22f48402fd86dc8f446cd63971172c7c899, para apontar ao procedimento Netlify já disponível na main.
 
 ## Incidente: cliente Supabase sem chave
 
