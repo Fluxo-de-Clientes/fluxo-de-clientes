@@ -128,8 +128,13 @@ create policy "Members can view permitted contacts"
   on public.contacts for select to authenticated
   using (
     public.has_org_role(organization_id, array['admin', 'manager', 'analyst'])
-    or assigned_to = (select auth.uid())
-    or created_by = (select auth.uid())
+    or (
+      public.has_org_role(organization_id, array['agent'])
+      and (
+        assigned_to = (select auth.uid())
+        or created_by = (select auth.uid())
+      )
+    )
   );
 
 create policy "Operators can create contacts"
