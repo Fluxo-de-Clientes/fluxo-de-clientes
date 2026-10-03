@@ -57,7 +57,7 @@ const channels: IntegrationChannel[] = [
     icon: 'i-lucide-shopping-bag',
     position: 'integration-channel--right-top',
     tone: 'integration-channel--yellow',
-    path: 'M 556 184 C 692 154 724 72 812 72',
+    path: 'M 812 72 C 724 72 692 154 556 184',
     delay: 0.22
   },
   {
@@ -67,7 +67,7 @@ const channels: IntegrationChannel[] = [
     icon: 'i-lucide-store',
     position: 'integration-channel--right-middle',
     tone: 'integration-channel--purple',
-    path: 'M 560 210 C 662 210 718 210 812 210',
+    path: 'M 812 210 C 718 210 662 210 560 210',
     delay: 0.6
   },
   {
@@ -77,7 +77,7 @@ const channels: IntegrationChannel[] = [
     icon: 'i-lucide-shopping-cart',
     position: 'integration-channel--right-bottom',
     tone: 'integration-channel--coral',
-    path: 'M 556 236 C 692 266 724 348 812 348',
+    path: 'M 812 348 C 724 348 692 266 556 236',
     delay: 0.98
   }
 ]
@@ -89,25 +89,23 @@ const signalAnimation = computed(() => {
   }
 
   return {
-    pathLength: [0, 0.1, 0.1, 0],
-    pathOffset: [0, 0.035, 0.84, 0.95],
-    opacity: [0, 1, 0.92, 0]
+    pathLength: 0.1,
+    pathOffset: [0, 0.9],
+    opacity: 1
   }
 })
 
 const signalTransition = {
   duration: 1.9,
   repeat: Infinity,
-  repeatDelay: 1.35,
-  ease: 'linear',
-  times: [0, 0.14, 0.82, 1]
+  ease: 'linear'
 }
 
 const flowStatus = computed(() => {
   if (reducedMotion.value) return 'Fluxo completo em modo estático.'
   if (compactLayout.value) return 'Canais organizados em uma visão compacta.'
   if (!panelVisible.value) return 'Canais preparados para o seu fluxo.'
-  return 'Sinais transitando entre os canais e o fluxo central.'
+  return 'Sinais fluindo continuamente para o centro da operação.'
 })
 
 let visibilityObserver: IntersectionObserver | undefined
