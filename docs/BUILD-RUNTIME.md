@@ -1,6 +1,6 @@
 # Build: diagnóstico e política de Node.js
 
-Registro do incidente investigado em **02/10/2026**. Consulte o [status do projeto](PROJECT-STATUS.md) para distinguir a correção histórica da prevenção proposta e da versão publicada.
+Registro do incidente investigado em **02/10/2026**. Consulte o [status do projeto](PROJECT-STATUS.md) para distinguir a correção histórica, a prevenção integrada pelo PR #5 e a versão publicada.
 
 ## O que falhou e por quê
 
@@ -31,7 +31,9 @@ O commit [65f2ecb4](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commi
 
 A execução antiga permanece vermelha como histórico. Ela não indica que a versão atual continua com a mesma falha; repetir o workflow do commit antigo reutiliza sua configuração antiga.
 
-## Prevenção desta alteração
+## Prevenção integrada pelo PR #5
+
+O [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) foi integrado à `main` no merge [`7a90f4c`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52). O PR #6 incorpora essa política ao resolver os conflitos com essa base; os resultados locais desta resolução estão no [status do projeto](PROJECT-STATUS.md), e os resultados do CI pertencem ao commit indicado em cada execução.
 
 | Arquivo | Regra |
 | --- | --- |
@@ -53,7 +55,7 @@ A imagem enviada pelo usuário mostra Node **24.x** selecionado no painel, mas n
 
 Na [configuração de dependências do Netlify](https://docs.netlify.com/build/configure-builds/manage-dependencies/), arquivos de versão no diretório-base prevalecem sobre a seleção do painel. A [precedência documentada](https://docs.netlify.com/build/configure-builds/available-software-at-build-time/) é `.nvmrc`, `.node-version`, `NODE_VERSION` e, por último, painel. Neste projeto, `.nvmrc` fica junto de `package.json`, na raiz.
 
-Assim, o novo pin será usado somente em builds que incluam esta alteração, com a raiz como diretório-base. Não foi feita mudança direta no painel nem publicação de produção por este trabalho. Depois da integração, confira no novo log Node 22.23.1, o commit implantado, o resultado do build e o estado publicado. Um CI aprovado não substitui essa verificação.
+Assim, o novo pin será usado somente em builds que incluam a prevenção integrada pelo PR #5, com a raiz como diretório-base. A integração à `main` não comprova uma nova publicação de produção. Confira no novo log Node 22.23.1, o commit implantado, o resultado do build e o estado publicado. Um CI aprovado não substitui essa verificação.
 
 ## Como validar uma mudança de runtime
 
@@ -64,12 +66,13 @@ node --version
 npm --version
 node -p "typeof Set.prototype.difference"
 npm ci
+npm test
 npm run build
 ```
 
 A consulta do método deve retornar `function`. Use uma cópia limpa ou o ambiente de CI para confirmar que o build não depende de arquivos locais. Preserve as dependências travadas, confira os avisos e o código de saída e associe cada resultado ao commit validado. Um bloqueio de rede ou falta de credenciais deve ser relatado como limitação de ambiente, não como falha do código.
 
-Leia [`package.json`](../package.json) antes de executar verificações adicionais: nesta base não há scripts `test`, `lint` ou `typecheck`. Valide o comportamento afetado e registre exatamente o que foi executado, sem inventar aprovação de testes.
+O script `npm test` valida os dados e a geometria do gráfico com o executor de testes do Node.js; sua aprovação não valida os fluxos de autenticação, contatos ou políticas do banco. Leia [`package.json`](../package.json) antes de executar verificações adicionais: nesta base não há scripts `lint` ou `typecheck`. Valide o comportamento afetado e registre exatamente o que foi executado, sem inventar aprovação de testes.
 
 ## Comunicação para o projeto
 

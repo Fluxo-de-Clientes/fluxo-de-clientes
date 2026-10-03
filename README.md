@@ -1,10 +1,8 @@
 # Fluxo de Clientes
 
-Aplicação em Nuxt 4, Vue 3 e TypeScript para apresentar o Fluxo de Clientes e demonstrar a experiência de atendimento. A interface está em português e usa Nuxt UI, ícones Lucide e GSAP.
+Aplicação Nuxt 4 para captação de demonstrações e gestão inicial de contatos, com Supabase Auth, Postgres e políticas de Row Level Security.
 
-A página inicial apresenta um painel demonstrativo, um funil com contatos fictícios e um fluxo visual do contato à oportunidade. Os botões de demonstração abrem uma conversa local na aplicação.
-
-O código atual é um protótipo de front-end: as conversas ficam no estado da sessão, sem backend ou persistência. Serviços descritos nos metadados do ecossistema não devem ser considerados implementados sem evidência no código e no ambiente correspondente.
+A página inicial apresenta um painel demonstrativo, um funil com contatos fictícios e um fluxo visual do contato à oportunidade. O projeto usa **Nuxt 4, Vue 3, TypeScript, Nuxt UI e GSAP**. As conversas da demonstração local ficam no estado da sessão.
 
 ## Comece pela situação do projeto
 
@@ -19,25 +17,72 @@ O projeto Supabase de referência é **fluxo-de-clientes**, da organização **q
 
 Consulte o [registro de identificação do Supabase](docs/SUPABASE.md) e os [metadados em INTEGRATIONS.yaml](INTEGRATIONS.yaml) antes de trabalhar nessa integração. [Abrir o projeto no Supabase](https://supabase.com/dashboard/project/bkhuyaivdvxjqybcglyo).
 
-Este registro contém somente identificação pública; a conexão da aplicação ao Supabase ainda não está implementada.
+Este registro contém somente identificação pública; a conexão da aplicação depende das variáveis de ambiente e da migration descritas abaixo.
 
 ## Preparar o ambiente
 
 Use **Node.js 22.23.1**, definido em [`.nvmrc`](.nvmrc), e npm. GitHub Actions e o próximo build do Netlify que incluir este arquivo usam a mesma versão. O campo `engines` aceita a família 22 a partir desse patch; `.npmrc` faz a instalação recusar versões fora da faixa.
 
-Selecione essa versão no seu gerenciador de Node ou instale-a e confirme:
+Selecione essa versão no seu gerenciador de Node ou instale-a antes de configurar a aplicação. Os fluxos integrados dependem de um projeto Supabase configurado.
 
-```sh
-node --version
-npm --version
-npm ci
-```
+## Configuração local
+
+1. Confirme o runtime e instale as dependências versionadas:
+
+   ```bash
+   node --version
+   npm --version
+   npm ci
+   ```
+
+2. Copie `.env.example` para `.env` e configure:
+
+   - `NUXT_PUBLIC_SUPABASE_URL`: URL pública do projeto Supabase.
+   - `NUXT_PUBLIC_SUPABASE_KEY`: publishable key (ou chave `anon` legada); é pública e não substitui RLS.
+   - `NUXT_SUPABASE_SECRET_KEY`: chave secreta Supabase, somente no servidor. Não use o prefixo `NUXT_PUBLIC_`.
+   - `NUXT_PUBLIC_APP_URL`: origem da aplicação, usada nos links de recuperação de senha.
+
+3. Aplique a migration versionada ao projeto autorizado usando a Supabase CLI:
+
+   ```bash
+   supabase link --project-ref bkhuyaivdvxjqybcglyo
+   supabase db push
+   ```
+
+   A migration cria a captação de demonstrações, empresas, membros, etapas, contatos, atividades e políticas RLS. Este repositório não executa nem publica migrations automaticamente.
+
+4. Configure no Supabase Auth as URLs de retorno `http://localhost:3000/auth/callback` e a URL de produção correspondente. Crie o primeiro usuário pelo fluxo administrativo do Supabase; após entrar, ele poderá configurar a empresa e será o administrador inicial.
+
+5. Inicie o servidor:
+
+   ```bash
+   npm run dev
+   ```
+
+Antes de publicar, configure a política aprovada de privacidade e retenção, os endereços de produção permitidos no Supabase Auth e o canal de acompanhamento/aviso dos pedidos comerciais. Convites e administração de membros ainda não fazem parte desta entrega; o primeiro usuário é provisionado pelo Supabase.
 
 O projeto mantém `package-lock.json`. Use `npm ci` para reproduzir as dependências versionadas. Use `npm install` quando a tarefa exigir uma mudança intencional nas dependências e revise o lockfile resultante.
 
 O servidor de desenvolvimento usa `http://localhost:3000` por padrão. A instalação executa `nuxt prepare` pelo script `postinstall`.
 
-## Comandos
+## Funcionalidades disponíveis
+
+- Formulário de demonstração com validação no navegador e no servidor. A confirmação aparece somente depois que o pedido é registrado.
+- Login e recuperação de senha via Supabase Auth.
+- Isolamento de dados por empresa, autorização no banco e escolha de empresa para usuários associados a mais de uma.
+- Cadastro, consulta, busca e atualização de contatos, etapa, responsável, origem, próxima ação e histórico.
+- A landing mantém números e telas de produto identificados como demonstrativos. Conversas da demonstração local continuam transitórias e não são o histórico operacional de contatos.
+
+## Verificação
+
+```bash
+npm test
+npm run build
+```
+
+As migrations e políticas podem ser validadas em um projeto Supabase local ou em ambiente de desenvolvimento antes de qualquer aplicação a produção. As chaves nunca devem ser versionadas.
+
+## Comandos disponíveis
 
 | Comando | Finalidade |
 | --- | --- |
@@ -59,10 +104,10 @@ Para contribuir, siga [CONTRIBUTING](.github/CONTRIBUTING.md), abra um PR para `
 
 ## Estrutura e documentação
 
-- `app/pages/`: página inicial e rotas de conversa.
+- `app/pages/`: página inicial, demonstração, autenticação, gestão de contatos e rotas de conversa.
 - `app/components/landing/`: painel, gráfico, funil e animação demonstrativa.
 - `app/utils/contactTrend.ts`: dados ilustrativos e cálculo das curvas do gráfico.
 - `app/composables/useVisualChats.ts`: estado transitório das conversas.
 - [Refinamento do painel e da landing page](docs/DASHBOARD-PREMIUM.md): decisões, dados, comportamento responsivo, animações e validação.
 - [Governança do GitHub](docs/GITHUB-GOVERNANCE.md): identificação do repositório e convenções de governança.
-- [Orientações para contribuir](AGENTS.md): padrões e limites deste protótipo.
+- [Orientações para contribuir](AGENTS.md): padrões e limites da aplicação.

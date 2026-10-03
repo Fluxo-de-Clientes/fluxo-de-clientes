@@ -4,6 +4,8 @@ import type { DropdownMenuItem } from '@nuxt/ui'
 const route = useRoute()
 const isHome = computed(() => route.path === '/')
 const { chats, renameChat, deleteChat } = useVisualChats()
+const { organizations, current, select } = useCurrentOrganization()
+const supabase = useSupabaseClient()
 const sidebarOpen = ref(false)
 const searchOpen = ref(false)
 const renameOpen = ref(false)
@@ -13,6 +15,7 @@ const chatItems = computed(() => chats.value.map(chat => ({
   id: chat.id, label: chat.title, to: `/chat/${chat.id}`, slot: 'chat' as const
 })))
 const groups = computed(() => [{ id: 'chats', label: 'Conversas desta sessão', items: chatItems.value }])
+const signOutError = ref('')
 
 function actions(id: string): DropdownMenuItem[] {
   return [
@@ -30,8 +33,21 @@ function confirmDelete() {
   deleteChat(selected.value.id)
   if (route.params.id === selected.value.id) navigateTo('/')
 }
+function selectOrganization(event: Event) {
+  select((event.target as HTMLSelectElement).value)
+}
+async function signOut() {
+  signOutError.value = ''
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.error('Sign-out failed', error)
+    signOutError.value = 'Não foi possível encerrar a sessão. Tente novamente.'
+    return
+  }
+  await navigateTo('/entrar')
+}
 watch(() => route.fullPath, () => { sidebarOpen.value = false; searchOpen.value = false })
-defineShortcuts({ meta_o: () => navigateTo('/') })
+defineShortcuts({ meta_o: () => navigateTo('/app/contatos/novo') })
 </script>
 
 <template>
@@ -50,11 +66,19 @@ defineShortcuts({ meta_o: () => navigateTo('/') })
       <template #default="{ collapsed }">
         <UNavigationMenu
 :collapsed="collapsed" orientation="vertical" :items="[
-          { label: 'Nova conversa', to: '/', icon: 'i-lucide-circle-plus', kbds: ['meta', 'o'] },
+          { label: 'Visão geral', to: '/app', icon: 'i-lucide-house' },
+          { label: 'Contatos', to: '/app/contatos', icon: 'i-lucide-users-round' },
+          { label: 'Novo contato', to: '/app/contatos/novo', icon: 'i-lucide-user-plus', kbds: ['meta', 'o'] },
           { label: 'Buscar', icon: 'i-lucide-search', kbds: ['meta', 'k'], onSelect: () => { searchOpen = true } }
         ]" />
         <template v-if="!collapsed">
-          <p class="px-2 pt-4 text-xs text-muted">Conversas desta sessão</p>
+          <label v-if="organizations.length > 1" class="block px-2 pt-4 text-xs text-muted">
+            Empresa
+            <select class="mt-2 w-full rounded-md border border-default bg-default px-2 py-2 text-sm text-highlighted" :value="current?.id ?? ''" @change="selectOrganization">
+              <option v-for="organization in organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</option>
+            </select>
+          </label>
+          <p class="px-2 pt-4 text-xs text-muted">Conversas demonstrativas desta sessão</p>
           <UNavigationMenu :items="chatItems" orientation="vertical" :ui="{ link: 'pr-10', linkTrailing: 'absolute right-1' }">
             <template #chat-trailing="{ item }">
               <UDropdownMenu :items="actions(item.id)" :content="{ align: 'end' }">
@@ -62,10 +86,16 @@ defineShortcuts({ meta_o: () => navigateTo('/') })
               </UDropdownMenu>
             </template>
           </UNavigationMenu>
-          <p v-if="!chats.length" class="px-2 py-3 text-sm text-muted">Suas conversas aparecerão aqui.</p>
+          <p v-if="!chats.length" class="px-2 py-3 text-sm text-muted">Nenhuma conversa local nesta sessão.</p>
         </template>
       </template>
-      <template #footer="{ collapsed }"><UserMenu :collapsed="collapsed" /></template>
+      <template #footer="{ collapsed }">
+        <div class="space-y-2">
+          <UserMenu :collapsed="collapsed" />
+          <UButton label="Sair" icon="i-lucide-log-out" color="neutral" variant="ghost" block :square="collapsed" @click="signOut" />
+          <p v-if="signOutError && !collapsed" class="px-2 text-xs text-error">{{ signOutError }}</p>
+        </div>
+      </template>
     </UDashboardSidebar>
     <UDashboardSearch v-model:open="searchOpen" placeholder="Buscar conversas..." :groups="groups" />
     <div class="m-2 flex min-w-0 flex-1 overflow-hidden rounded-lg bg-default/75 shadow-sm ring ring-default sm:m-4 lg:ml-0"><slot /></div>

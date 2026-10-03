@@ -4,8 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const { createChat } = useVisualChats()
-
 const solutions = [
   { title: 'Marketing', text: 'Veja a origem dos contatos.', icon: 'i-lucide-megaphone' },
   { title: 'Funil de clientes', text: 'Acompanhe cada etapa.', icon: 'i-lucide-filter' },
@@ -30,16 +28,11 @@ const audiences = [
 const faqs = [
   { question: 'Como a plataforma ajuda no atendimento?', answer: 'Reúne conversas, responsáveis e etapas para que a equipe acompanhe cada contato com contexto.' },
   { question: 'A IA pode apoiar a minha equipe?', answer: 'A IA ajuda a resumir conversas e sinalizar pontos de atenção. A equipe mantém o controle das decisões.' },
-  { question: 'Como conhecer os recursos disponíveis?', answer: 'Explore a demonstração local desta aplicação para conhecer o fluxo de conversas e atendimento.' }
+  { question: 'Como conhecer os recursos disponíveis?', answer: 'Solicite uma demonstração e informe o que precisa organizar. A equipe vai apresentar as possibilidades para o seu caso.' }
 ]
 
 const landingRoot = ref<HTMLElement | null>(null)
 let motion: ReturnType<typeof gsap.matchMedia> | undefined
-
-function openDemo(message: string) {
-  const id = createChat(message)
-  if (id) navigateTo(`/chat/${id}`)
-}
 
 onMounted(() => {
   motion = gsap.matchMedia()
@@ -72,12 +65,13 @@ onBeforeUnmount(() => motion?.revert())
         <nav class="main-nav" aria-label="Navegação principal">
           <a href="#plataforma">Plataforma</a>
           <a href="#solucoes">Soluções</a>
+          <a href="#integracoes">Integrações</a>
           <a href="#como-funciona">Como funciona</a>
           <a href="#perguntas">Perguntas</a>
         </nav>
         <div class="header-actions">
-          <button class="button button-light" @click="openDemo('Quero acessar a plataforma')">Entrar</button>
-          <button class="button button-dark" @click="openDemo('Quero solicitar uma demonstração')">Solicitar demonstração</button>
+          <NuxtLink to="/entrar" class="button button-light">Entrar</NuxtLink>
+          <NuxtLink to="/demonstracao" class="button button-dark">Solicitar demonstração</NuxtLink>
         </div>
       </div>
     </header>
@@ -90,16 +84,16 @@ onBeforeUnmount(() => motion?.revert())
             <h1>Marketing, atendimento e dados no <span>mesmo lugar.</span></h1>
             <p class="hero-description">Organize conversas, acompanhe o funil e use IA para apoiar a próxima decisão.</p>
             <div class="hero-actions">
-              <button class="button button-dark button-arrow" @click="openDemo('Quero solicitar uma demonstração')">
+              <NuxtLink to="/demonstracao" class="button button-dark button-arrow">
                 Solicitar demonstração <UIcon name="i-lucide-arrow-right" />
-              </button>
-              <a class="button button-sage" href="#solucoes">Explorar a plataforma</a>
+              </NuxtLink>
+              <a class="button button-sage" href="https://app.fluxodeclientes.com.br">Explorar a plataforma</a>
             </div>
             <p class="hero-note">Uma visão clara de quem chega e do que acontece depois.</p>
           </div>
 
           <div class="hero-visual">
-            <LandingDashboardPreview @open-demo="openDemo" />
+            <LandingDashboardPreview @open-demo="navigateTo('/demonstracao')" />
           </div>
         </div>
       </section>
@@ -116,6 +110,12 @@ onBeforeUnmount(() => motion?.revert())
         </div>
       </section>
 
+      <section id="integracoes" class="integrations-section" data-reveal>
+        <div class="site-container">
+          <LandingIntegrationsPanel />
+        </div>
+      </section>
+
       <section id="funil" class="funnel-section" data-reveal>
         <div class="site-container funnel-grid">
           <LandingPipelinePreview />
@@ -127,7 +127,7 @@ onBeforeUnmount(() => motion?.revert())
               <li><UIcon name="i-lucide-circle-check" /> Etapa e responsável</li>
               <li><UIcon name="i-lucide-circle-check" /> Histórico da conversa</li>
             </ul>
-            <a href="#como-funciona" class="text-link">Conhecer o funil <UIcon name="i-lucide-arrow-right" /></a>
+            <NuxtLink to="/demonstracao?interesse=funil" class="text-link">Conhecer o funil <UIcon name="i-lucide-arrow-right" /></NuxtLink>
           </div>
         </div>
       </section>
@@ -143,7 +143,7 @@ onBeforeUnmount(() => motion?.revert())
             <div class="assistant-heading"><span><UIcon name="i-lucide-waypoints" /> Assistente de análise</span><small>Exemplo ilustrativo</small></div>
             <div class="assistant-note">
               <UIcon name="i-lucide-sparkles" />
-              <div><strong>Há conversas aguardando retorno.</strong><p>Alguns contatos estão sem atividade há mais de 3 dias. Reveja e defina o próximo passo.</p><button class="button button-assistant" @click="openDemo('Revisar sugestões de conversas sem retorno')">Revisar sugestões</button></div>
+              <div><strong>Há conversas aguardando retorno.</strong><p>Alguns contatos estão sem atividade há mais de 3 dias. Reveja e defina o próximo passo.</p><span class="button button-assistant" aria-hidden="true">Exemplo ilustrativo</span></div>
             </div>
             <LandingCustomerFlow />
           </div>
@@ -192,7 +192,7 @@ onBeforeUnmount(() => motion?.revert())
       <section id="contato" class="cta-section" data-reveal>
         <div class="site-container cta-inner">
           <div><h2>Vamos organizar o seu fluxo?</h2><p>Conheça a plataforma e veja o que faz sentido para sua operação.</p></div>
-          <button class="button button-dark button-arrow" @click="openDemo('Quero organizar meu fluxo e conhecer a plataforma')">Solicitar demonstração <UIcon name="i-lucide-arrow-right" /></button>
+          <NuxtLink to="/demonstracao" class="button button-dark button-arrow">Solicitar demonstração <UIcon name="i-lucide-arrow-right" /></NuxtLink>
         </div>
       </section>
     </main>
@@ -200,7 +200,7 @@ onBeforeUnmount(() => motion?.revert())
     <footer class="site-footer">
       <div class="site-container footer-inner">
         <NuxtLink to="/" class="footer-brand" aria-label="Fluxo de Clientes, início"><BrandLogo class="footer-logo" /><small>Marketing, atendimento e dados conectados.</small></NuxtLink>
-        <nav aria-label="Navegação do rodapé"><a href="#plataforma">Plataforma</a><a href="#contato">Demonstração</a><a href="#contato">Contato</a><a href="#perguntas">Privacidade</a><a href="#perguntas">Termos</a></nav>
+        <nav aria-label="Navegação do rodapé"><a href="#plataforma">Plataforma</a><NuxtLink to="/demonstracao">Demonstração</NuxtLink><NuxtLink to="/entrar">Entrar</NuxtLink></nav>
         <small class="copyright">© 2026 FLUXO DE CLIENTES</small>
       </div>
     </footer>
@@ -277,6 +277,7 @@ onBeforeUnmount(() => motion?.revert())
 .solution-icon :deep(svg), .process-icon :deep(svg) { width: 21px; height: 21px; stroke-width: 1.8; }
 .solution-item h3, .audience-card h3 { margin: 0 0 4px; font-size: 13px; font-weight: 800; }
 .solution-item p, .audience-card p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.35; }
+.integrations-section { padding: 48px 0 56px; background: rgba(255, 255, 255, .73); }
 .funnel-section { padding: 56px 0; background: var(--sage); }
 .funnel-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(270px, .7fr); align-items: center; gap: 48px; }
 .funnel-copy { max-width: 360px; }
@@ -362,6 +363,7 @@ onBeforeUnmount(() => motion?.revert())
   .hero-copy { max-width: 560px; }
   .hero-copy h1 { max-width: 520px; font-size: clamp(38px, 7vw, 52px); }
   .solutions-section { padding-top: 26px; }
+  .integrations-section { padding-block: 40px 48px; }
   .funnel-grid { grid-template-columns: 1fr; gap: 23px; }
   .funnel-copy { max-width: 600px; }
   .ai-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -377,9 +379,8 @@ onBeforeUnmount(() => motion?.revert())
   .brand-link { width: 138px; flex-basis: 138px; }
   .header-actions { gap: 6px; }
   .header-actions .button { min-height: 36px; padding-inline: 10px; font-size: 10px; }
-  .header-actions .button-light { display: none; }
-  .main-nav { justify-content: space-between; gap: 8px; }
-  .main-nav a { font-size: 12px; }
+  .main-nav { justify-content: center; flex-wrap: wrap; gap: 5px 15px; }
+  .main-nav a { font-size: 11px; }
   .hero-grid { padding-top: 17px; }
   .hero-copy h1 { font-size: 38px; }
   .hero-description { font-size: 16px; }

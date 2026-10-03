@@ -4,7 +4,7 @@
     <template #right>
       <slot />
       <UColorModeButton />
-      <UButton to="/" icon="i-lucide-circle-plus" color="neutral" variant="ghost" class="lg:hidden" aria-label="Nova conversa" />
+      <UButton to="/app/contatos/novo" icon="i-lucide-user-plus" color="neutral" variant="ghost" class="lg:hidden" aria-label="Novo contato" />
     </template>
   </UDashboardNavbar>
 </template>
