@@ -10,10 +10,15 @@ project:
   environment: production
   owner: "diretoria@fluxodeclientes.com.br"
   technical_owner: "time-tecnologia@fluxodeclientes.com.br"
+  # Endereço de documentação previsto; publicação externa não verificada.
   documentation_url: "https://docs.fluxodeclientes.com.br"
-  production_url: "https://app.fluxodeclientes.com.br"
+  # Site deste repositório, confirmado no Netlify.
+  production_url: "https://fluxodeclientes.com.br"
+  # Aplicativo em hospedagem separada; origem de código ainda não identificada.
   app_url: "https://app.fluxodeclientes.com.br"
+  # Endereços de referência; disponibilidade não verificada.
   api_url: "https://api.fluxodeclientes.com.br"
   status: active
   product_type: saas
   lifecycle: template-reference
+  status_documentation: "docs/PROJECT-STATUS.md"

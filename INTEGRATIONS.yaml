@@ -12,16 +12,24 @@ integrations:
     database_name: "postgres"
     identification_verified_on: "2026-10-02"
     documentation: "docs/SUPABASE.md"
-    # Classificação preexistente do inventário; não verificada como ambiente ativo.
+    # Classificação do projeto; schema ainda não implantado na verificação abaixo.
     environment: production
+    schema_status: not_applied
+    public_tables_verified: 0
+    deployment_status_documentation: "docs/PROJECT-STATUS.md"
 
   netlify:
     enabled: true
-    site_name: "{{NETLIFY_SITE_NAME}}"
-    site_id: "{{NETLIFY_SITE_ID}}"
-    team: "{{NETLIFY_TEAM}}"
-    production_url: "{{NETLIFY_PRODUCTION_URL}}"
-    custom_domain: "{{NETLIFY_CUSTOM_DOMAIN}}"
+    site_name: "fluxodeclientes"
+    site_id: "2ea03f45-ba43-41a6-84c7-41a7f117c980"
+    team: "fluxo_de_clientes"
+    team_id: "6aba4d9f99968900086bc1af"
+    production_url: "https://fluxodeclientes.com.br"
+    custom_domain: "fluxodeclientes.com.br"
+    repository: "Fluxo-de-Clientes/fluxo-de-clientes"
+    production_branch: "main"
+    identification_verified_on: "2026-10-02"
+    deployment_status_documentation: "docs/PROJECT-STATUS.md"
 
   meta:
     enabled: false
@@ -40,8 +48,10 @@ integrations:
     provider: "{{WHATSAPP_PROVIDER}}"
 
   gitbook:
+    # Classificação de inventário; espaço e publicação externa não verificados.
     enabled: true
     space_id: "{{GITBOOK_SPACE_ID}}"
+    deployment_status: unverified
 
   n8n:
     enabled: false

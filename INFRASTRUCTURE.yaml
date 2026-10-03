@@ -1,4 +1,14 @@
 infrastructure:
+  # Hospedagem confirmada; estado operacional e deploy no documento canônico.
+  netlify:
+    site_name: fluxodeclientes
+    site_id: "2ea03f45-ba43-41a6-84c7-41a7f117c980"
+    domain: "fluxodeclientes.com.br"
+    production_branch: main
+    status_documentation: "docs/PROJECT-STATUS.md"
+
+  # Arquitetura de referência: placeholders abaixo não comprovam recursos ativos.
+  # app.fluxodeclientes.com.br/login responde, mas sua origem de código não foi identificada.
   saas_vps:
     name: saas-vps
     provider: vps-provider
