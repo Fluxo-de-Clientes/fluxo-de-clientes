@@ -28,7 +28,6 @@ watch(() => chat.value?.messages.length, async () => {
           <div ref="messagesEnd" />
         </div>
         <div class="sticky bottom-0 space-y-2 bg-default pb-4">
-          <p class="text-center text-xs text-muted">Demonstração visual · sem envio externo ou respostas automáticas</p>
           <ChatPrompt v-model="input" @submit="submit" />
         </div>
       </UContainer>

@@ -114,7 +114,7 @@ onBeforeUnmount(() => {
   <section ref="flowRoot" class="customer-flow" :aria-labelledby="titleId">
     <header class="flow-heading">
       <div>
-        <p class="flow-eyebrow">EXEMPLO DEMONSTRATIVO</p>
+        <p class="flow-eyebrow">JORNADA DE ATENDIMENTO</p>
         <h3 :id="titleId">Do contato à oportunidade.</h3>
       </div>
       <span class="flow-heading-icon" aria-hidden="true"><UIcon name="i-lucide-workflow" /></span>
@@ -144,8 +144,7 @@ onBeforeUnmount(() => {
     <footer class="flow-footer">
       <p class="flow-caption">
         <span class="flow-status-dot" aria-hidden="true" />
-        <span v-if="reducedMotion">Fluxo completo em modo estático.</span>
-        <span v-else-if="playing">Organizando o próximo passo…</span>
+        <span v-if="playing">Organizando o próximo passo…</span>
         <span v-else-if="complete">Próximo passo definido para a equipe.</span>
         <span v-else>O contexto acompanha cada etapa.</span>
       </p>
@@ -161,7 +160,7 @@ onBeforeUnmount(() => {
         Reproduzir fluxo
       </UButton>
     </footer>
-    <span class="flow-screen-reader" role="status">{{ complete ? 'Demonstração concluída. O contato ganhou contexto na conversa e se tornou uma oportunidade com um próximo passo.' : '' }}</span>
+    <span class="flow-screen-reader" role="status">{{ complete ? 'Sequência concluída. O contato ganhou contexto na conversa e se tornou uma oportunidade com um próximo passo.' : '' }}</span>
   </section>
 </template>
 

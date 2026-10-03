@@ -18,6 +18,7 @@ const descriptionId = useId()
 const reducedMotion = ref(true)
 const panelVisible = ref(false)
 const compactLayout = ref(false)
+const selectedChannelId = ref<string | null>(null)
 
 const channels: IntegrationChannel[] = [
   {
@@ -101,12 +102,14 @@ const signalTransition = {
   ease: 'linear'
 }
 
-const flowStatus = computed(() => {
-  if (reducedMotion.value) return 'Fluxo completo em modo estático.'
-  if (compactLayout.value) return 'Canais organizados em uma visão compacta.'
-  if (!panelVisible.value) return 'Canais preparados para o seu fluxo.'
-  return 'Sinais fluindo continuamente para o centro da operação.'
-})
+const selectedChannel = computed(() => channels.find(channel => channel.id === selectedChannelId.value))
+const flowStatus = computed(() => selectedChannel.value
+  ? `${selectedChannel.value.name}: ${selectedChannel.value.detail}.`
+  : 'Selecione um canal para destacar seu caminho.')
+
+function toggleChannel(channelId: string) {
+  selectedChannelId.value = selectedChannelId.value === channelId ? null : channelId
+}
 
 let visibilityObserver: IntersectionObserver | undefined
 let motionPreference: MediaQueryList | undefined
@@ -154,16 +157,22 @@ onBeforeUnmount(() => {
       <svg class="integrations-routes" viewBox="0 0 1000 420" role="img" :aria-labelledby="`${titleId} ${descriptionId}`">
         <title>Possibilidades de canais conectados ao Fluxo de Clientes</title>
         <desc :id="descriptionId">
-          Exemplo visual com WhatsApp Business, Google, LinkedIn, Mercado Livre, Nuvemshop e WooCommerce conectados a um fluxo central.
+          WhatsApp Business, Google, LinkedIn, Mercado Livre, Nuvemshop e WooCommerce conectados a um fluxo central. Selecione um canal para destacar seu caminho.
         </desc>
         <g aria-hidden="true">
-          <path v-for="channel in channels" :key="`${channel.id}-route`" :d="channel.path" class="integration-route" />
+          <path
+            v-for="channel in channels"
+            :key="`${channel.id}-route`"
+            :d="channel.path"
+            class="integration-route"
+            :class="{ 'integration-route--selected': selectedChannelId === channel.id, 'integration-route--muted': selectedChannelId && selectedChannelId !== channel.id }"
+          />
           <motion.path
             v-for="channel in channels"
             :key="`${channel.id}-signal-glow`"
             :d="channel.path"
             class="integration-route-signal integration-route-signal--glow"
-            :animate="signalAnimation"
+            :animate="!selectedChannelId || selectedChannelId === channel.id ? signalAnimation : { pathLength: 0, pathOffset: 0, opacity: 0 }"
             :transition="{ ...signalTransition, delay: channel.delay }"
           />
           <motion.path
@@ -171,24 +180,28 @@ onBeforeUnmount(() => {
             :key="`${channel.id}-signal-core`"
             :d="channel.path"
             class="integration-route-signal"
-            :animate="signalAnimation"
+            :animate="!selectedChannelId || selectedChannelId === channel.id ? signalAnimation : { pathLength: 0, pathOffset: 0, opacity: 0 }"
             :transition="{ ...signalTransition, delay: channel.delay }"
           />
         </g>
       </svg>
 
-      <article
+      <button
         v-for="channel in channels"
         :key="channel.id"
         class="integration-channel"
-        :class="[channel.position, channel.tone]"
+        :class="[channel.position, channel.tone, { 'integration-channel--selected': selectedChannelId === channel.id, 'integration-channel--muted': selectedChannelId && selectedChannelId !== channel.id }]"
+        type="button"
+        :aria-pressed="selectedChannelId === channel.id"
+        :aria-label="`Destacar ${channel.name}: ${channel.detail}`"
+        @click="toggleChannel(channel.id)"
       >
         <span class="integration-channel-icon" aria-hidden="true"><UIcon :name="channel.icon" /></span>
         <span class="integration-channel-copy">
           <strong>{{ channel.name }}</strong>
           <small>{{ channel.detail }}</small>
         </span>
-      </article>
+      </button>
 
       <div class="integration-hub">
         <motion.div
@@ -207,16 +220,14 @@ onBeforeUnmount(() => {
     </div>
 
     <footer class="integrations-footer">
-      <p>
-        <span class="integration-status-dot" aria-hidden="true" />
+      <p role="status" aria-live="polite" aria-atomic="true">
+        <UIcon name="i-lucide-route" class="integration-flow-icon" aria-hidden="true" />
         {{ flowStatus }}
       </p>
       <a href="https://app.fluxodeclientes.com.br" class="integrations-cta">
         Levar meu fluxo para o app <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
       </a>
     </footer>
-
-    <p class="integrations-caption">Exemplo ilustrativo. Os canais disponíveis dependem da configuração da sua operação.</p>
   </section>
 </template>
 
@@ -253,7 +264,9 @@ onBeforeUnmount(() => {
 
 .integrations-network { position: relative; width: min(100%, 1000px); min-height: 420px; margin: clamp(28px, 4vw, 42px) auto 16px; }
 .integrations-routes { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.integration-route { fill: none; stroke: #52634d; stroke-width: 1.45; vector-effect: non-scaling-stroke; }
+.integration-route { fill: none; stroke: #52634d; stroke-width: 1.45; vector-effect: non-scaling-stroke; transition: stroke .2s ease, opacity .2s ease; }
+.integration-route--selected { stroke: #ffd1b3; stroke-width: 2; }
+.integration-route--muted { opacity: .3; }
 .integration-route-signal { fill: none; stroke: #ffd1b3; stroke-width: 2.8; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .integration-route-signal--glow { stroke: #ee905c; stroke-width: 9px; filter: blur(3px); opacity: .48; }
 
@@ -269,7 +282,18 @@ onBeforeUnmount(() => {
   border-radius: 17px;
   background: rgb(30 39 29 / 82%);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 5%), 0 11px 22px rgb(6 11 5 / 15%);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, opacity .2s ease;
 }
+
+.integration-channel:hover { border-color: #9ab08d; background: #2b3729; }
+.integration-channel:focus-visible { outline: 3px solid #ffd1b3; outline-offset: 4px; }
+.integration-channel--selected { border-color: #ffd1b3; background: #34422f; box-shadow: 0 0 0 2px rgb(255 209 179 / 12%); }
+.integration-channel--muted { opacity: .8; }
+.integration-channel--muted:hover, .integration-channel--muted:focus-visible { opacity: 1; }
 
 .integration-channel--left-top { top: 26px; left: 0; }
 .integration-channel--left-middle { top: 171px; left: 0; }
@@ -301,11 +325,10 @@ onBeforeUnmount(() => {
 
 .integrations-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0 0; border-top: 1px solid rgb(210 222 203 / 14%); }
 .integrations-footer p { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: #c4cfbe; font-size: 12px; }
-.integration-status-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #c8efa2; box-shadow: 0 0 0 4px rgb(200 239 162 / 10%); }
+.integration-flow-icon { width: 17px; height: 17px; flex: 0 0 17px; color: #ffd1b3; }
 .integrations-cta { min-height: 42px; display: inline-flex; align-items: center; gap: 8px; padding: 0 14px; border: 1px solid rgb(227 237 219 / 18%); border-radius: 12px; background: rgb(255 255 255 / 7%); color: #f4f7ef; font-size: 12px; font-weight: 700; text-decoration: none; transition: background .2s ease, transform .2s ease; }
 .integrations-cta:hover { background: rgb(255 255 255 / 12%); transform: translateY(-1px); }
 .integrations-cta :deep(svg) { width: 15px; height: 15px; }
-.integrations-caption { margin: 12px 0 0; color: #9dac97; font-size: 10px; text-align: center; }
 
 @media (max-width: 760px) {
   .integrations-network { min-height: 390px; }
@@ -339,6 +362,6 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .integrations-cta { transition: none; }
+  .integrations-cta, .integration-channel, .integration-route { transition: none; }
 }
 </style>

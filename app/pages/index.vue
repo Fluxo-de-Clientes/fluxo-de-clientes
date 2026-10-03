@@ -139,11 +139,11 @@ onBeforeUnmount(() => motion?.revert())
             <p>Resumos, sinais de atenção e sugestões para organizar a rotina.</p>
             <span class="control-pill"><UIcon name="i-lucide-shield-check" /> A equipe mantém o controle</span>
           </div>
-          <div class="assistant-window" aria-label="Exemplo ilustrativo do assistente de análise">
-            <div class="assistant-heading"><span><UIcon name="i-lucide-waypoints" /> Assistente de análise</span><small>Exemplo ilustrativo</small></div>
+          <div class="assistant-window" aria-label="Assistente de análise">
+            <div class="assistant-heading"><span><UIcon name="i-lucide-waypoints" /> Assistente de análise</span></div>
             <div class="assistant-note">
               <UIcon name="i-lucide-sparkles" />
-              <div><strong>Há conversas aguardando retorno.</strong><p>Alguns contatos estão sem atividade há mais de 3 dias. Reveja e defina o próximo passo.</p><span class="button button-assistant" aria-hidden="true">Exemplo ilustrativo</span></div>
+              <div><strong>Há conversas aguardando retorno.</strong><p>Alguns contatos estão sem atividade há mais de 3 dias. Reveja e defina o próximo passo.</p><a class="button button-assistant" href="#funil">Ver funil de clientes <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" /></a></div>
             </div>
             <LandingCustomerFlow />
           </div>
@@ -300,7 +300,6 @@ onBeforeUnmount(() => motion?.revert())
 .assistant-heading { justify-content: space-between; gap: 12px; margin-bottom: 16px; font-size: 14px; font-weight: 700; }
 .assistant-heading > span { gap: 9px; }
 .assistant-heading > span :deep(svg) { width: 16px; height: 16px; color: var(--orange); }
-.assistant-heading small { padding: 4px 9px; border: 1px solid rgba(255,255,255,.3); border-radius: 12px; color: #dadfd4; font-size: 11px; font-weight: 500; }
 .assistant-note { display: flex; gap: 13px; padding: 13px; border: 1px solid rgba(227,234,218,.14); border-radius: 12px; background: rgba(255,255,255,.05); }
 .assistant-note > :deep(svg) { width: 23px; height: 23px; flex: 0 0 23px; color: #f46b4d; }
 .assistant-note strong { font-size: 14px; }

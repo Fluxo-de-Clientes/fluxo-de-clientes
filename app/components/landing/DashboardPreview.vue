@@ -17,7 +17,7 @@ const activity = [
 
 <template>
   <div class="preview-container">
-    <section class="preview-dashboard" aria-label="Prévia demonstrativa do painel Fluxo de Clientes">
+    <section class="preview-dashboard" aria-label="Painel Fluxo de Clientes">
       <div class="preview-rail" aria-hidden="true">
         <span class="preview-rail-brand"><UIcon name="i-lucide-waypoints" /></span>
         <span class="preview-rail-active"><UIcon name="i-lucide-layout-dashboard" /></span>
@@ -31,7 +31,6 @@ const activity = [
       <div class="preview-workspace">
         <header class="preview-topbar">
           <span class="preview-workspace-name"><i /> Seu espaço de trabalho</span>
-          <span class="preview-demo-label">Dados demonstrativos</span>
         </header>
 
         <div class="preview-main">
@@ -50,7 +49,7 @@ const activity = [
 
           <div class="preview-analysis">
             <LandingContactTrend />
-            <section class="preview-funnel" aria-label="Funil demonstrativo de conversão em propostas">
+            <section class="preview-funnel" aria-label="Funil de conversão em propostas">
               <h3>Avanço no funil</h3>
               <p>Contatos que chegaram à etapa</p>
               <ol>
@@ -63,7 +62,7 @@ const activity = [
             </section>
           </div>
 
-          <section class="preview-activity" aria-label="Atividades demonstrativas recentes">
+          <section class="preview-activity" aria-label="Atividades recentes">
             <div class="preview-activity-heading"><h3>Atividade recente</h3><span>No seu fluxo</span></div>
             <ol>
               <li v-for="event in activity" :key="event.title">
@@ -82,7 +81,6 @@ const activity = [
         </div>
       </div>
     </section>
-    <p class="preview-caption"><UIcon name="i-lucide-info" aria-hidden="true" /> Prévia ilustrativa. Explore o atendimento na demonstração.</p>
   </div>
 </template>
 
@@ -101,7 +99,6 @@ const activity = [
 .preview-topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 46px; padding: 10px 18px; border-bottom: 1px solid #e5e8e0; background: rgb(255 255 255 / 75%); }
 .preview-workspace-name { display: inline-flex; align-items: center; gap: 7px; color: #505c47; font-size: 11px; font-weight: 600; }
 .preview-workspace-name i { width: 6px; height: 6px; border-radius: 50%; background: #74905e; }
-.preview-demo-label { padding: 4px 7px; border: 1px solid #eadbd2; border-radius: 5px; background: #fff5ef; color: #93402b; font-size: 11px; line-height: 1.3; white-space: nowrap; }
 .preview-main { padding: 18px; }
 .preview-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 17px; }
 .preview-heading p { margin: 0 0 4px; color: #626e57; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
@@ -150,8 +147,6 @@ const activity = [
 .preview-action strong { display: block; font-size: 12px; font-weight: 650; }
 .preview-action small { display: block; margin-top: 2px; color: #59664f; font-size: 11px; }
 .preview-action-arrow { width: 16px; height: 16px; flex: 0 0 16px; }
-.preview-caption { display: flex; align-items: flex-start; justify-content: center; gap: 6px; margin: 12px 5px 0; color: #647159; font-size: 11px; line-height: 1.5; }
-.preview-caption :deep(.iconify) { width: 13px; height: 13px; margin-top: 2px; flex: 0 0 13px; }
 @container dashboard (max-width: 650px) {
   .preview-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .preview-metric-label { min-height: 0; }
@@ -165,7 +160,7 @@ const activity = [
   .preview-rail { display: none; }
   .preview-topbar { padding: 12px 14px; flex-wrap: wrap; }
   .preview-main { padding: 16px 14px; }
-  .preview-workspace-name, .preview-demo-label, .preview-period, .preview-metric-label, .preview-metric > p, .preview-funnel > p, .preview-funnel li > div, .preview-funnel-note, .preview-event-copy strong, .preview-event-copy > span, .preview-event-time, .preview-activity-heading > span, .preview-action small, .preview-caption { font-size: 12px; }
+  .preview-workspace-name, .preview-period, .preview-metric-label, .preview-metric > p, .preview-funnel > p, .preview-funnel li > div, .preview-funnel-note, .preview-event-copy strong, .preview-event-copy > span, .preview-event-time, .preview-activity-heading > span, .preview-action small { font-size: 12px; }
   .preview-heading p { font-size: 12px; }
   .preview-metric { padding: 14px 12px; }
   .preview-metric-label { gap: 8px; }
