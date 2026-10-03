@@ -87,7 +87,7 @@ onBeforeUnmount(() => motion?.revert())
               <NuxtLink to="/demonstracao" class="button button-dark button-arrow">
                 Solicitar demonstração <UIcon name="i-lucide-arrow-right" />
               </NuxtLink>
-              <a class="button button-sage" href="#solucoes">Explorar a plataforma</a>
+              <a class="button button-sage" href="https://app.fluxodeclientes.com.br">Explorar a plataforma</a>
             </div>
             <p class="hero-note">Uma visão clara de quem chega e do que acontece depois.</p>
           </div>
