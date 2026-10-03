@@ -33,7 +33,7 @@ A execução antiga permanece vermelha como histórico. Ela não indica que a ve
 
 ## Prevenção integrada pelo PR #5
 
-O [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) foi integrado à `main` no merge [`7a90f4c`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52). O PR #6 incorpora essa política ao resolver os conflitos com essa base; os resultados locais desta resolução estão no [status do projeto](PROJECT-STATUS.md), e os resultados do CI pertencem ao commit indicado em cada execução.
+O [PR #5](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/5) foi integrado à `main` no merge [`7a90f4c`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/7a90f4c239ca793ee3d8eb7d938a59cd8bcfcb52). O [PR #6](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/6) preservou essa política na resolução dos conflitos e foi integrado no commit [`aef6f59`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/aef6f5932ed14d34fbbd7409fb109bbdf55f3b79). O [status do projeto](PROJECT-STATUS.md) reúne as evidências atuais e as referências históricas; os resultados do CI pertencem ao commit indicado em cada execução.
 
 | Arquivo | Regra |
 | --- | --- |
@@ -63,7 +63,7 @@ A recuperação configurou `NUXT_PUBLIC_SUPABASE_URL` e `NUXT_PUBLIC_SUPABASE_KE
 
 Uma tentativa de upload local em ZIP falhou na leitura da versão de `.nvmrc`; repetir o build diretamente do Git eliminou esse problema de transporte sem alterar o runtime versionado. Para o site já vinculado, usar `netlify deploy --trigger --prod --site 2ea03f45-ba43-41a6-84c7-41a7f117c980` e verificar o deploy criado.
 
-Nesta PR, o hook `prebuild` executa [check-deploy-env.mjs](../scripts/check-deploy-env.mjs). Ele falha em Netlify/Production se URL ou chave pública estiverem vazias, sem imprimir valores. Builds de CI/local/preview não são bloqueados por esse guard; a disponibilidade dessas páginas depende de sua própria configuração e de teste HTTP.
+A prevenção foi integrada à `main` pela [PR #7](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/pull/7), no commit [`ed5cdb0`](https://github.com/Fluxo-de-Clientes/fluxo-de-clientes/commit/ed5cdb0a1c6d68ef8fccde277ee097c5bf88a5ae). O hook `prebuild` executa [check-deploy-env.mjs](../scripts/check-deploy-env.mjs) e falha em Netlify/Production se URL ou chave pública estiverem vazias, sem imprimir valores. Builds de CI/local/preview não são bloqueados por essa verificação; a disponibilidade dessas páginas depende de sua própria configuração e de teste HTTP. A recuperação histórica descrita acima usou `aef6f59`, antes dessa prevenção; a publicação de commits posteriores deve ser confirmada no [status do projeto](PROJECT-STATUS.md).
 
 Após publicar, verificar `/`, `/entrar`, `/demonstracao`, a marca e os links para o aplicativo. HTTP 200 na página de formulário não comprova gravação de pedidos, assim como HTTP 200 em `/login` não comprova autenticação completa. O estado do schema e as configurações pendentes estão no [status](PROJECT-STATUS.md).
 
