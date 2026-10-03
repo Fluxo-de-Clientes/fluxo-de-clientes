@@ -64,7 +64,7 @@ Esta validação não exercita autenticação, escrita de contatos ou políticas
 
 ### Painel de canais e integrações em revisão
 
-- A landing do PR #6 passa a incluir uma seção demonstrativa de canais e integrações entre as soluções e o funil. Ela apresenta WhatsApp Business, Google, LinkedIn, Mercado Livre, Nuvemshop e WooCommerce como possibilidades de composição da operação; não afirma que os serviços estejam ativos ou configurados.
+- A landing do PR #6 passa a incluir uma seção demonstrativa de canais e integrações entre as soluções e o funil. Ela apresenta WhatsApp Business, Google, LinkedIn, Mercado Livre, Nuvemshop e WooCommerce como possibilidades de composição da operação e oferece continuidade para `https://app.fluxodeclientes.com.br`; não afirma que os serviços estejam ativos ou configurados.
 - O painel usa `motion-v` para transmitir pulsos luminosos intermitentes pelas rotas entre os canais e o hub central. A animação respeita `prefers-reduced-motion` e troca para uma organização estática em telas compactas.
 - Nesta alteração, `npm ci --no-audit --no-fund`, `npm test` (3 testes) e `git diff --check` foram aprovados. O servidor de desenvolvimento respondeu `200` para a landing com configuração local não produtiva. O cliente e o servidor de `npm run build` compilaram, mas o empacotamento Nitro voltou a ser interrompido pelo `EPERM` de `readlink` em `C:\\Users\\User` do ambiente Windows restrito; consulte os checks do commit atualizado do PR para a validação completa.
 

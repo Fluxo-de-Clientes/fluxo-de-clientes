@@ -211,9 +211,9 @@ onBeforeUnmount(() => {
         <span class="integration-status-dot" aria-hidden="true" />
         {{ flowStatus }}
       </p>
-      <NuxtLink to="/demonstracao" class="integrations-cta">
-        Conhecer possibilidades <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
-      </NuxtLink>
+      <a href="https://app.fluxodeclientes.com.br" class="integrations-cta">
+        Levar meu fluxo para o app <UIcon name="i-lucide-arrow-up-right" aria-hidden="true" />
+      </a>
     </footer>
 
     <p class="integrations-caption">Exemplo ilustrativo. Os canais disponíveis dependem da configuração da sua operação.</p>
