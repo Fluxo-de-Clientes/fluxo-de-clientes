@@ -198,7 +198,9 @@ onBeforeUnmount(() => {
           :animate="shouldAnimate ? { scale: [1, 1.035, 1], y: [0, -2, 0] } : { scale: 1, y: 0 }"
           :transition="{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }"
         >
-          <span class="integration-hub-icon" aria-hidden="true"><UIcon name="i-lucide-waypoints" /></span>
+          <span class="integration-hub-brand" aria-hidden="true">
+            <img src="/brand/simbolo-original.svg" alt="" width="264" height="272">
+          </span>
           <strong>Fluxo</strong>
         </motion.div>
         <p>Fluxo de Clientes</p>
@@ -293,8 +295,8 @@ onBeforeUnmount(() => {
 
 .integration-hub { position: absolute; top: 50%; left: 50%; width: 190px; transform: translate(-50%, -50%); text-align: center; }
 .integration-hub-core { width: 116px; height: 116px; display: grid; place-content: center; gap: 7px; margin: 0 auto; border: 1px solid #9ab08d; border-radius: 28px; background: linear-gradient(145deg, #41523a, #34422f); box-shadow: 0 0 0 12px rgb(190 219 169 / 4%), 0 18px 36px rgb(5 12 4 / 28%); }
-.integration-hub-icon { width: 34px; height: 34px; display: grid; place-items: center; margin: 0 auto; border-radius: 11px; background: #c6ec9c; color: #20351d; }
-.integration-hub-icon :deep(svg) { width: 19px; height: 19px; stroke-width: 2.4; }
+.integration-hub-brand { width: 38px; height: 39px; display: grid; place-items: center; margin: 0 auto; }
+.integration-hub-brand img { width: 38px; height: auto; display: block; }
 .integration-hub-core strong { color: #f5f7ef; font-size: 15px; letter-spacing: -.02em; }
 .integration-hub p { margin: 15px 0 3px; color: #f3f5ee; font-size: 13px; font-weight: 700; }
 .integration-hub > span { color: #b7c5b0; font-size: 11px; }
